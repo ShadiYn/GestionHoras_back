@@ -1,6 +1,6 @@
 package com.pla.control.models;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,8 +22,8 @@ public class User {
 	private String username;
 	private String password;
 
-	private LocalDate created_at;
-	private LocalDate updated_at;
+	private LocalDateTime created_at;
+	private LocalDateTime updated_at;
 
 	private boolean accountNonExpired;
 	private boolean accountNonLocked;
@@ -39,6 +39,11 @@ public class User {
 		this.nombre = nombre;
 		this.username = username;
 		this.password = password;
+		this.created_at = LocalDateTime.now();
+		this.accountNonExpired = true;
+		this.accountNonLocked = true;
+		this.credentialsNonExpired= true;
+		this.enabled = true;
 	}
 
 	public String getUsername() {
@@ -47,6 +52,7 @@ public class User {
 
 	public void setUsername(String username) {
 		this.username = username;
+		this.updated_at = LocalDateTime.now();
 	}
 
 	public String getNombre() {
@@ -55,6 +61,7 @@ public class User {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+		this.updated_at = LocalDateTime.now();
 	}
 
 	public String getPassword() {
@@ -63,22 +70,7 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public LocalDate getCreated_at() {
-		return created_at;
-	}
-
-	public void setCreated_at(LocalDate created_at) {
-		this.created_at = created_at;
-	}
-
-	public LocalDate getUpdated_at() {
-		return updated_at;
-	}
-
-	public void setUpdated_at(LocalDate updated_at) {
-		this.updated_at = updated_at;
+		this.updated_at = LocalDateTime.now();
 	}
 
 	public boolean isAccountNonExpired() {
@@ -116,5 +108,14 @@ public class User {
 	public int getId() {
 		return id;
 	}
+
+	public LocalDateTime getCreated_at() {
+		return created_at;
+	}
+
+	public LocalDateTime getUpdated_at() {
+		return updated_at;
+	}
+	
 
 }
