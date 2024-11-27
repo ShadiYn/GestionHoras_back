@@ -25,8 +25,8 @@ public class WorkDay {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-	private int user_id;
+    @JoinColumn(name = "id", nullable = false)
+	private User user;
 	private LocalDate day;
 	private LocalTime start_time;
 	private LocalTime end_time;
@@ -40,6 +40,9 @@ public class WorkDay {
 	
 	private LocalDateTime created_at;
 	private LocalDateTime updated_at;
+	
+	
+	
 	
 	
 }
