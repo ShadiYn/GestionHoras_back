@@ -1,11 +1,14 @@
 package com.pla.control.models;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,10 +22,9 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
-	private String lastname;
+	private String last_name;
 	private String username;
 	private String password;
-
 	private LocalDateTime created_at;
 	private LocalDateTime updated_at;
 
@@ -30,12 +32,14 @@ public class User {
 	private boolean accountNonLocked;
 	private boolean credentialsNonExpired;
 	private boolean enabled;
-	
+	 
+	@OneToMany(mappedBy = "user")
+	    private List<WorkDay> workDays;
 	
 	public User(String name, String lastname, String username, String password) {
 		super();
 		this.name = name;
-		this.lastname = lastname;
+		this.last_name = lastname;
 		this.username = username;
 		this.password = password;
 		this.accountNonExpired = true;
@@ -50,13 +54,6 @@ public class User {
 	}
 	public void setName(String name) {
 		this.name = name;
-		this.updated_at = LocalDateTime.now();
-	}
-	public String getLastname() {
-		return lastname;
-	}
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
 		this.updated_at = LocalDateTime.now();
 	}
 	public String getUsername() {
@@ -105,6 +102,18 @@ public class User {
 	}
 	public LocalDateTime getUpdated_at() {
 		return updated_at;
+	}
+	public String getLast_name() {
+		return last_name;
+	}
+	public void setLast_name(String last_name) {
+		this.last_name = last_name;
+	}
+	public List<WorkDay> getWorkDays() {
+		return workDays;
+	}
+	public void setWorkDays(List<WorkDay> workDays) {
+		this.workDays = workDays;
 	}
 
 
