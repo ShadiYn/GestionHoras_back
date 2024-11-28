@@ -3,6 +3,7 @@ package com.pla.control.models;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,24 +26,14 @@ public class WorkDay {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
 	private User user;
 	private LocalDate day;
-	private LocalTime start_time;
-	private LocalTime end_time;
-	private LocalTime break_start;
-	private LocalTime break_end;
-
-	
 	private boolean attended;
 	private boolean justified;
 	private String description;
-	
 	private LocalDateTime created_at;
 	private LocalDateTime updated_at;
-	
-	
-	
-	
-	
+	@OneToMany
+	private List<Intervals> intervalsList;
 }
