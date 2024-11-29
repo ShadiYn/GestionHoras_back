@@ -37,6 +37,7 @@ public class SecurityConfig {
 
 	}
 
+
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
@@ -52,18 +53,16 @@ public class SecurityConfig {
 
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable())// Deshabilitamos la protección contra ataques Cross-site request forgery
-				.cors(withDefaults())
-				.authorizeHttpRequests((requests) -> {
-					try {
-						// Definimos que urls estarán desprotegidas y no necesitarán recibir las credenciales para poder ser accedidas
-						requests.requestMatchers("/endpointdesprotegido").permitAll().anyRequest().authenticated();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}).httpBasic(withDefaults());
+		http.csrf(csrf -> csrf.disable()) // Desactiva CSRF para simplificar pruebas
+				.cors(withDefaults()) // Habilita CORS
+				.authorizeHttpRequests((requests) -> requests
+						.requestMatchers("/register", "/login").permitAll() // Sin autenticación
+						.anyRequest().authenticated() // Las demás rutas requieren autenticación
+				)
+				.httpBasic(withDefaults()); // Usa autenticación básica para otras rutas
 		return http.build();
 	}
+
 
 	// Configuración del CORS (Cross-origin resource sharing)
 	@Bean
@@ -71,9 +70,11 @@ public class SecurityConfig {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins(localDomainFront);
-				registry.addMapping("/**").allowedMethods("POST", "PUT", "GET", "DELETE", "OPTIONS");
+				registry.addMapping("/**")
+						.allowedOrigins("http://localhost:5173") // Permitir todos los orígenes (solo para pruebas)
+						.allowedMethods("POST", "PUT", "GET", "DELETE", "OPTIONS");
 			}
 		};
 	}
+
 }
