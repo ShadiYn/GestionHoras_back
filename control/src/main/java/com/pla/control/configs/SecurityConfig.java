@@ -1,7 +1,5 @@
 package com.pla.control.configs;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -14,11 +12,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@CrossOrigin
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
@@ -37,7 +35,6 @@ public class SecurityConfig {
 
 	}
 
-
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
@@ -53,16 +50,20 @@ public class SecurityConfig {
 
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable()) // Desactiva CSRF para simplificar pruebas
-				.cors(withDefaults()) // Habilita CORS
-				.authorizeHttpRequests((requests) -> requests
-						.requestMatchers("/register", "/login").permitAll() // Sin autenticación
-						.anyRequest().authenticated() // Las demás rutas requieren autenticación
-				)
-				.httpBasic(withDefaults()); // Usa autenticación básica para otras rutas
+		http.csrf(csrf -> csrf.disable())// Deshabilitamos la protección contra ataques Cross-site request forgery
+				.cors(withDefaults())
+				.authorizeHttpRequests((requests) -> {
+
+					try {
+						// Definimos que urls estarán desprotegidas y no necesitarán recibir las credenciales para poder ser accedidas
+						requests.requestMatchers("/endpointdesprotegido", "/register", "/login").permitAll().anyRequest().authenticated();
+					} catch (Exception e) {
+						System.out.println("Croqueta");
+						e.printStackTrace();
+					}
+				}).httpBasic(withDefaults());
 		return http.build();
 	}
-
 
 	// Configuración del CORS (Cross-origin resource sharing)
 	@Bean
@@ -70,9 +71,8 @@ public class SecurityConfig {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-						.allowedOrigins("http://localhost:5173") // Permitir todos los orígenes (solo para pruebas)
-						.allowedMethods("POST", "PUT", "GET", "DELETE", "OPTIONS");
+				registry.addMapping("/**").allowedOrigins(localDomainFront);
+				registry.addMapping("/**").allowedMethods("POST", "PUT", "GET", "DELETE", "OPTIONS");
 			}
 		};
 	}
