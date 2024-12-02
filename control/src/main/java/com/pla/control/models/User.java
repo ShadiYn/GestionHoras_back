@@ -55,7 +55,22 @@ public class User implements UserDetails {
         this.updated_at = LocalDateTime.now();
     }
 
-    @Override
+    public User(String name, String last_name, String username, String password, boolean accountNonExpired, boolean accountNonLocked,
+			boolean credentialsNonExpired, boolean enabled) {
+		super();
+		this.name = name;
+		this.last_name = last_name;
+		this.username = username;
+		this.password = password;
+		this.created_at = LocalDateTime.now();;
+		this.updated_at = LocalDateTime.now();
+		this.accountNonExpired = accountNonExpired;
+		this.accountNonLocked = accountNonLocked;
+		this.credentialsNonExpired = credentialsNonExpired;
+		this.enabled = enabled;
+	}
+
+	@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
     }
@@ -94,9 +109,6 @@ public class User implements UserDetails {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public boolean isFlexible() {
         return isFlexible;
@@ -104,6 +116,7 @@ public class User implements UserDetails {
 
     public void setFlexible(boolean flexible) {
         isFlexible = flexible;
+        this.updated_at = LocalDateTime.now();
     }
 
     public int getEurosPerHour() {
@@ -112,6 +125,7 @@ public class User implements UserDetails {
 
     public void setEurosPerHour(int eurosPerHour) {
         this.eurosPerHour = eurosPerHour;
+        this.updated_at = LocalDateTime.now();
     }
 
     public String getName() {
@@ -120,6 +134,7 @@ public class User implements UserDetails {
 
     public void setName(String name) {
         this.name = name;
+        this.updated_at = LocalDateTime.now();
     }
 
     public String getLast_name() {
@@ -132,42 +147,41 @@ public class User implements UserDetails {
 
     public void setUsername(String username) {
         this.username = username;
+        this.updated_at = LocalDateTime.now();
     }
 
     public void setPassword(String password) {
         this.password = password;
+        this.updated_at = LocalDateTime.now();
     }
 
     public LocalDateTime getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
-    }
-
     public LocalDateTime getUpdated_at() {
         return updated_at;
     }
 
-    public void setUpdated_at(LocalDateTime updated_at) {
-        this.updated_at = updated_at;
-    }
 
     public void setAccountNonExpired(boolean accountNonExpired) {
         this.accountNonExpired = accountNonExpired;
+        this.updated_at = LocalDateTime.now();
     }
 
     public void setAccountNonLocked(boolean accountNonLocked) {
         this.accountNonLocked = accountNonLocked;
+        this.updated_at = LocalDateTime.now();
     }
 
     public void setCredentialsNonExpired(boolean credentialsNonExpired) {
         this.credentialsNonExpired = credentialsNonExpired;
+        this.updated_at = LocalDateTime.now();
     }
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+        this.updated_at = LocalDateTime.now();
     }
 
     public List<WorkDay> getWorkDays() {
@@ -176,5 +190,6 @@ public class User implements UserDetails {
 
     public void setWorkDays(List<WorkDay> workDays) {
         this.workDays = workDays;
+        this.updated_at = LocalDateTime.now();
     }
 }
