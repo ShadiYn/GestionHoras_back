@@ -15,6 +15,8 @@ public class Intervals {
     private int id_interval;
     private LocalTime start_time;
     private LocalTime end_time;
+    private float requiredHours;
+    private float overtime;
     @ManyToOne
     @JoinColumn(name = "workday_id", nullable = false)
     private WorkDay workDay;
