@@ -1,7 +1,7 @@
 package com.pla.control.controllers;
 
-import com.pla.control.models.Register;
 import com.pla.control.models.User;
+import com.pla.control.models.UserDTO;
 import com.pla.control.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,32 +21,40 @@ public class RegisterController {
     private BCryptPasswordEncoder encode;
 
     @PostMapping
-    public ResponseEntity<String> register(@RequestBody Register register) {
+    public ResponseEntity<String> register(@RequestBody UserDTO userDTO) {
 
 
-        if (register.getUsername() == null || register.getUsername().isBlank()) {
+        if (userDTO.getUsername() == null || userDTO.getUsername().isBlank()) {
             return ResponseEntity.badRequest().body("The username is required");
         }
 
-        if (register.getName() == null || register.getName().isBlank()) {
+        if (userDTO.getName() == null || userDTO.getName().isBlank()) {
             return ResponseEntity.badRequest().body("The name is required");
         }
 
-        if (register.getPassword() == null || register.getPassword().isBlank()) {
+        if (userDTO.getPassword() == null || userDTO.getPassword().isBlank()) {
             return ResponseEntity.badRequest().body("The password is required");
         }
 
+        if (userDTO.getEurosPerHour() == 0) {
+            return ResponseEntity.badRequest().body("Your salary per hour is required");
+        }
+
+//        if (userDTO.isFlexible() == null || userDTO.getPassword().isBlank()) {
+//            return ResponseEntity.badRequest().body("The password is required");
+//        }
+
         // Verificar si el usuario ya existe
-        if (usersRepository.existsByUsername(register.getUsername())) {
+        if (usersRepository.existsByUsername(userDTO.getUsername())) {
             return ResponseEntity.badRequest().body("This username already exists");
         }
 
         // Crear y guardar el nuevo usuario
         User newUser = new User();
-        newUser.setUsername(register.getUsername());
-        newUser.setName(register.getName());
-        newUser.setLast_name(register.getLast_name());
-        newUser.setPassword(encode.encode(register.getPassword()));
+        newUser.setUsername(userDTO.getUsername());
+        newUser.setName(userDTO.getName());
+        newUser.setLast_name(userDTO.getLastName());
+        newUser.setPassword(encode.encode(userDTO.getPassword()));
         newUser.setEnabled(true);
         newUser.setCreated_at(LocalDateTime.now());
         newUser.setUpdated_at(LocalDateTime.now());

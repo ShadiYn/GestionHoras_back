@@ -37,6 +37,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<WorkDay> workDays;
 
+
     public User() {
     }
 
