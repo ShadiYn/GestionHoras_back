@@ -23,11 +23,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int user_id;
+    private int id;
     private String name;
     private String last_name;
     private String username;
     private String password;
+    private boolean isFlexible;
+    private int eurosPerHour;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
     private boolean accountNonExpired;

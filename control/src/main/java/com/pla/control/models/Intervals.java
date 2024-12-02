@@ -18,4 +18,8 @@ public class Intervals {
     private LocalTime start_time;
     private LocalTime end_time;
 
+    @ManyToOne
+    @JoinColumn(name = "workday_id", nullable = false)
+    private WorkDay workDay;
+
 }

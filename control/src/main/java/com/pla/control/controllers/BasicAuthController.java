@@ -15,7 +15,7 @@ public class BasicAuthController {
         // No devolveremos el usuario ni la contraseña al front, sino información sobre si el login ha sido exitoso. Si lo ha sido, a partir de ese momento, desde el front, mandaremos en la cabecera de cada petición el username y password que han provocado que el login sea exitoso
 
         User user = (User) upa.getPrincipal();
-        return ResponseEntity.ok().body("{\"resp\":\"Login exitoso\", \"id\":" + user.getUser_id() + "}");
+        return ResponseEntity.ok().body("{\"resp\":\"Login exitoso\", \"id\":" + user.getId() + "}");
 
     }
 }
