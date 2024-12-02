@@ -17,11 +17,26 @@ public class Intervals {
     private LocalTime end_time;
     private float requiredHours;
     private float overtime;
+    
     @ManyToOne
     @JoinColumn(name = "workday_id", nullable = false)
     private WorkDay workDay;
+   
+    
+    public Intervals() {
+		super();
+	}
 
-    public int getId_interval() {
+	public Intervals(LocalTime start_time, LocalTime end_time, float requiredHours, float overtime, WorkDay workDay) {
+		super();
+		this.start_time = start_time;
+		this.end_time = end_time;
+		this.requiredHours = requiredHours;
+		this.overtime = overtime;
+		this.workDay = workDay;
+	}
+
+	public int getId_interval() {
         return id_interval;
     }
 
@@ -48,4 +63,21 @@ public class Intervals {
     public void setEnd_time(LocalTime end_time) {
         this.end_time = end_time;
     }
+
+	public float getRequiredHours() {
+		return requiredHours;
+	}
+
+	public void setRequiredHours(float requiredHours) {
+		this.requiredHours = requiredHours;
+	}
+
+	public float getOvertime() {
+		return overtime;
+	}
+
+	public void setOvertime(float overtime) {
+		this.overtime = overtime;
+	}
+    
 }
