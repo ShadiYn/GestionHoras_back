@@ -32,7 +32,7 @@ public class UserDTO {
         return isFlexible;
     }
 
-    public void isFlexible(Boolean flexible) {
+    public void setIsFlexible(Boolean flexible) {
         isFlexible = flexible;
     }
 
