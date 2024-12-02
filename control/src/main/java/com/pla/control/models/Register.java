@@ -15,8 +15,4 @@ public class Register {
     private String last_name;
 
     private String password;
-
-    private boolean isFlexible;
-
-    private int eurosPerHour;
 }

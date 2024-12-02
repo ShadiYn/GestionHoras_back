@@ -1,7 +1,5 @@
 package com.pla.control.configs;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -14,11 +12,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@CrossOrigin
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
@@ -55,10 +53,16 @@ public class SecurityConfig {
 		http.csrf(csrf -> csrf.disable())// Deshabilitamos la protección contra ataques Cross-site request forgery
 				.cors(withDefaults())
 				.authorizeHttpRequests((requests) -> {
+
 					try {
 						// Definimos que urls estarán desprotegidas y no necesitarán recibir las credenciales para poder ser accedidas
+<<<<<<< HEAD
 						requests.requestMatchers("/endpointdesprotegido", "/register").permitAll().anyRequest().authenticated();
+=======
+						requests.requestMatchers("/endpointdesprotegido", "/register", "/login").permitAll().anyRequest().authenticated();
+>>>>>>> 84d89d801713514f13de53e610acb248164e3e7a
 					} catch (Exception e) {
+						System.out.println("Croqueta");
 						e.printStackTrace();
 					}
 				}).httpBasic(withDefaults());
@@ -76,4 +80,5 @@ public class SecurityConfig {
 			}
 		};
 	}
+
 }
