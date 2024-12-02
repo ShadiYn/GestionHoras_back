@@ -28,13 +28,28 @@ public class WorkDay {
 	private List<Intervals> intervalsList;
 
 
+	public WorkDay() {
+		super();
+	}
+
+
+	public WorkDay(User user, LocalDate day, boolean attended, boolean justified, String description,
+			LocalDateTime created_at, LocalDateTime updated_at) {
+		super();
+		this.user = user;
+		this.day = day;
+		this.attended = attended;
+		this.justified = justified;
+		this.description = description;
+		this.created_at =  LocalDateTime.now();
+		this.updated_at = LocalDateTime.now();
+	}
+
+
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public User getUser() {
 		return user;
@@ -42,6 +57,7 @@ public class WorkDay {
 
 	public void setUser(User user) {
 		this.user = user;
+		this.updated_at = LocalDateTime.now();
 	}
 
 	public LocalDate getDay() {
@@ -50,6 +66,7 @@ public class WorkDay {
 
 	public void setDay(LocalDate day) {
 		this.day = day;
+		this.updated_at = LocalDateTime.now();
 	}
 
 	public boolean isAttended() {
@@ -58,6 +75,7 @@ public class WorkDay {
 
 	public void setAttended(boolean attended) {
 		this.attended = attended;
+		this.updated_at = LocalDateTime.now();
 	}
 
 	public boolean isJustified() {
@@ -66,6 +84,7 @@ public class WorkDay {
 
 	public void setJustified(boolean justified) {
 		this.justified = justified;
+		this.updated_at = LocalDateTime.now();
 	}
 
 	public String getDescription() {
@@ -74,23 +93,17 @@ public class WorkDay {
 
 	public void setDescription(String description) {
 		this.description = description;
+		this.updated_at = LocalDateTime.now();
 	}
 
 	public LocalDateTime getCreated_at() {
 		return created_at;
 	}
 
-	public void setCreated_at(LocalDateTime created_at) {
-		this.created_at = created_at;
-	}
-
 	public LocalDateTime getUpdated_at() {
 		return updated_at;
 	}
 
-	public void setUpdated_at(LocalDateTime updated_at) {
-		this.updated_at = updated_at;
-	}
 
 	public List<Intervals> getIntervalsList() {
 		return intervalsList;
@@ -98,5 +111,6 @@ public class WorkDay {
 
 	public void setIntervalsList(List<Intervals> intervalsList) {
 		this.intervalsList = intervalsList;
+		this.updated_at = LocalDateTime.now();
 	}
 }

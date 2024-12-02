@@ -31,10 +31,6 @@ public class Intervals {
         this.workDay = workDay;
     }
 
-    public void setId_interval(int id_interval) {
-        this.id_interval = id_interval;
-    }
-
     public LocalTime getStart_time() {
         return start_time;
     }
