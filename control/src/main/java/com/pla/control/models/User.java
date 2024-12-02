@@ -17,8 +17,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Getter
-@Setter
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
@@ -91,12 +89,28 @@ public class User implements UserDetails {
         return password;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getId() {
+        return id;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isFlexible() {
+        return isFlexible;
+    }
+
+    public void setFlexible(boolean flexible) {
+        isFlexible = flexible;
+    }
+
+    public int getEurosPerHour() {
+        return eurosPerHour;
+    }
+
+    public void setEurosPerHour(int eurosPerHour) {
+        this.eurosPerHour = eurosPerHour;
     }
 
     public String getName() {

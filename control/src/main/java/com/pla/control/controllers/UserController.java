@@ -1,132 +1,52 @@
-package com.pla.control.controllers;
+    package com.pla.control.controllers;
 
-import com.pla.control.models.User;
-import com.pla.control.repositories.UsersRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+    import com.pla.control.models.User;
+    import com.pla.control.models.UserDTO;
+    import com.pla.control.repositories.UsersRepository;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.http.HttpStatus;
+    import org.springframework.http.ResponseEntity;
+    import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+    import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+    @RestController
+    @RequestMapping("/usersettings")
+    public class UserController {
 
-@RestController
-@RequestMapping("/usersettings")
-public class UserController {
+        @Autowired
+        UsersRepository usersRepository;
 
-    @Autowired
-    UsersRepository usersRepository;
+        @Autowired
+        BCryptPasswordEncoder encode;
 
-    @Autowired
-    BCryptPasswordEncoder encode;
+        @PutMapping("/{id}")
+        public ResponseEntity<String> updateUser(
+                @PathVariable Integer id,
+                @RequestBody UserDTO userUpdateDTO) {
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updatePassword(
-            @PathVariable Integer id,
-            @RequestBody Map<String, String> requestBody) {
+            User userToUpdate = usersRepository.findUserById(id);
+            if (userToUpdate == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
 
-        if (!requestBody.containsKey("newPassword") || requestBody.get("newPassword").isBlank()) {
-            return ResponseEntity.badRequest().body("New password is required");
+            if (userUpdateDTO.getUsername() != null && !userUpdateDTO.getUsername().isBlank()) {
+                userToUpdate.setUsername(userUpdateDTO.getUsername());
+            }
+
+            if (userUpdateDTO.getPassword() != null && !userUpdateDTO.getPassword().isBlank()) {
+                userToUpdate.setPassword(encode.encode(userUpdateDTO.getPassword()));
+            }
+
+            if (userUpdateDTO.getName() != null && !userUpdateDTO.getName().isBlank()) {
+                userToUpdate.setName(userUpdateDTO.getName());
+            }
+
+            if (userUpdateDTO.getLastName() != null && !userUpdateDTO.getLastName().isBlank()) {
+                userToUpdate.setLast_name(userUpdateDTO.getLastName());
+            }
+
+            usersRepository.save(userToUpdate);
+
+            return ResponseEntity.ok("User updated successfully");
         }
-
-        String newPassword = requestBody.get("newPassword");
-
-        User userToUpdate = usersRepository.findUserById(id);
-        if (userToUpdate == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
-
-        userToUpdate.setPassword(encode.encode(newPassword));
-        usersRepository.save(userToUpdate);
-
-        return ResponseEntity.ok("Password updated successfully");
     }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateUsername(
-            @PathVariable Integer id,
-            @RequestBody Map<String, String> requestBody) {
-
-        if (!requestBody.containsKey("newUsername") || requestBody.get("newUsername").isBlank()) {
-            return ResponseEntity.badRequest().body("New username is required");
-        }
-
-        String newUsername = requestBody.get("newUsername");
-
-        User userToUpdate = usersRepository.findUserById(id);
-        if (userToUpdate == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
-
-        userToUpdate.setUsername(newUsername);
-        usersRepository.save(userToUpdate);
-
-        return ResponseEntity.ok("Username updated successfully");
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateName(
-            @PathVariable Integer id,
-            @RequestBody Map<String, String> requestBody) {
-
-        if (!requestBody.containsKey("newName") || requestBody.get("newName").isBlank()) {
-            return ResponseEntity.badRequest().body("New Name is required");
-        }
-
-        String newName = requestBody.get("newName");
-
-        User userToUpdate = usersRepository.findUserById(id);
-        if (userToUpdate == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
-
-        userToUpdate.setName(newName);
-        usersRepository.save(userToUpdate);
-
-        return ResponseEntity.ok("Name updated successfully");
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateLastName(
-            @PathVariable Integer id,
-            @RequestBody Map<String, String> requestBody) {
-
-        if (!requestBody.containsKey("newLasName") || requestBody.get("newLasName").isBlank()) {
-            return ResponseEntity.badRequest().body("New Lastname is required");
-        }
-
-        String newLasName = requestBody.get("newLasName");
-
-        User userToUpdate = usersRepository.findUserById(id);
-        if (userToUpdate == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
-
-        userToUpdate.setLast_name(newLasName);
-        usersRepository.save(userToUpdate);
-
-        return ResponseEntity.ok("Lastname updated successfully");
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateUserPassword(
-            @PathVariable Integer id,
-            @RequestBody Map<String, String> requestBody) {
-
-        if (!requestBody.containsKey("newPassword") || requestBody.get("newPassword").isBlank()) {
-            return ResponseEntity.badRequest().body("newPassword is required");
-        }
-
-        String newPassword = requestBody.get("newPassword");
-
-        User userToUpdate = usersRepository.findUserById(id);
-        if (userToUpdate == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
-
-        userToUpdate.setPassword(encode.encode(newPassword));
-        usersRepository.save(userToUpdate);
-
-        return ResponseEntity.ok("Password updated successfully");
-    }
-}

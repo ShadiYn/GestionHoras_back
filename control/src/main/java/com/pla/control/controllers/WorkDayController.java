@@ -20,9 +20,9 @@ public class WorkDayController {
     @Autowired
     UsersRepository usersRepository;
 
-    @PostMapping
-    public ResponseEntity<WorkDay>createWorkDay(@RequestBody WorkDay workDay){
-
-
-    }
+//    @PostMapping
+//    public ResponseEntity<WorkDay>createWorkDay(@RequestBody WorkDay workDay){
+//
+//
+//    }
 }
