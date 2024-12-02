@@ -55,8 +55,7 @@ public class User implements UserDetails {
         this.updated_at = LocalDateTime.now();
     }
 
-    public User(String name, String last_name, String username, String password, boolean accountNonExpired, boolean accountNonLocked,
-			boolean credentialsNonExpired, boolean enabled) {
+    public User(String name, String last_name, String username, String password) {
 		super();
 		this.name = name;
 		this.last_name = last_name;
@@ -64,10 +63,10 @@ public class User implements UserDetails {
 		this.password = password;
 		this.created_at = LocalDateTime.now();;
 		this.updated_at = LocalDateTime.now();
-		this.accountNonExpired = accountNonExpired;
-		this.accountNonLocked = accountNonLocked;
-		this.credentialsNonExpired = credentialsNonExpired;
-		this.enabled = enabled;
+		this.accountNonExpired = true;
+		this.accountNonLocked = true;
+		this.credentialsNonExpired = true;
+		this.enabled = true;
 	}
 
 	@Override
