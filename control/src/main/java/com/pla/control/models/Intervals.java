@@ -12,7 +12,7 @@ public class Intervals {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_interval;
+	private int id;
     private LocalTime start_time;
     private LocalTime end_time;
     private float requiredHours;
@@ -36,8 +36,8 @@ public class Intervals {
 		this.workDay = workDay;
 	}
 
-	public int getId_interval() {
-        return id_interval;
+	public int getId() {
+        return id;
     }
 
     public WorkDay getWorkDay() {
