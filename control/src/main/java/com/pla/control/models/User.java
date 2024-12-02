@@ -41,21 +41,8 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String name, String lastname, String username, String password) {
-        super();
-        this.name = name;
-        this.last_name = lastname;
-        this.username = username;
-        this.password = password;
-        this.accountNonExpired = true;
-        this.accountNonLocked = true;
-        this.credentialsNonExpired = true;
-        this.enabled = true;
-        this.created_at = LocalDateTime.now();
-        this.updated_at = LocalDateTime.now();
-    }
 
-    public User(String name, String last_name, String username, String password) {
+    public User(String name, String last_name, String username, String password,int eurosPerHour, boolean isFlexible) {
 		super();
 		this.name = name;
 		this.last_name = last_name;
@@ -67,6 +54,8 @@ public class User implements UserDetails {
 		this.accountNonLocked = true;
 		this.credentialsNonExpired = true;
 		this.enabled = true;
+		this.eurosPerHour = eurosPerHour;
+		this.isFlexible = isFlexible;
 	}
 
 	@Override

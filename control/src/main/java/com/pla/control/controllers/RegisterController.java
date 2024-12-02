@@ -48,7 +48,7 @@ public class RegisterController {
 
 		// Crear y guardar el nuevo usuario
 		User newUser = new User(userDTO.getName(), userDTO.getLastName(), userDTO.getUsername(),
-				encode.encode(userDTO.getPassword()));
+				encode.encode(userDTO.getPassword()),userDTO.getEurosPerHour(),userDTO.isFlexible());
 
 		usersRepository.save(newUser);
 
