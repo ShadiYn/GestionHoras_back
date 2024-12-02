@@ -37,9 +37,9 @@ public class RegisterController {
 			return ResponseEntity.badRequest().body("Your salary per hour is required");
 		}
 
-//        if (userDTO.isFlexible() == null || userDTO.getPassword().isBlank()) {
-//            return ResponseEntity.badRequest().body("The password is required");
-//        }
+        if (userDTO.isFlexible() == null) {
+            return ResponseEntity.badRequest().body("Your schedule type is required");
+        }
 
 		// Verificar si el usuario ya existe
 		if (usersRepository.existsByUsername(userDTO.getUsername())) {

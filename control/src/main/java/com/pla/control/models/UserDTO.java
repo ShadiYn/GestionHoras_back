@@ -6,7 +6,7 @@ public class UserDTO {
     private String password;
     private String lastName;
     private int eurosPerHour;
-    private boolean isFlexible;
+    private Boolean isFlexible;
 
     public String getUsername() {
         return username;
@@ -28,11 +28,11 @@ public class UserDTO {
         this.eurosPerHour = eurosPerHour;
     }
 
-    public boolean isFlexible() {
+    public Boolean isFlexible() {
         return isFlexible;
     }
 
-    public void setFlexible(boolean flexible) {
+    public void isFlexible(Boolean flexible) {
         isFlexible = flexible;
     }
 
