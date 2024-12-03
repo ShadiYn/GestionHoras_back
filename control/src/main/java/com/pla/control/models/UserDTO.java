@@ -6,16 +6,18 @@ public class UserDTO {
 	private String password;
 	private String lastName;
 	private float eurosPerHour;
+	private float eurosPerExtraHours;
 	private Boolean isFlexible;
 
 	public UserDTO() {
 	}
 
-	public UserDTO(String username, String name, String lastName, float eurosPerHour, Boolean isFlexible) {
+	public UserDTO(String username, String name, String lastName, float eurosPerHour, float eurosPerExtraHours, Boolean isFlexible) {
 		this.username = username;
 		this.name = name;
 		this.lastName = lastName;
 		this.eurosPerHour = eurosPerHour;
+		this.eurosPerExtraHours = eurosPerExtraHours;
 		this.isFlexible = isFlexible;
 	}
 
@@ -66,4 +68,13 @@ public class UserDTO {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
+	public float getEurosPerExtraHours() {
+		return eurosPerExtraHours;
+	}
+
+	public void setEurosPerExtraHours(float eurosPerExtraHours) {
+		this.eurosPerExtraHours = eurosPerExtraHours;
+	}
+	
 }

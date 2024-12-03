@@ -52,7 +52,9 @@ public class BasicAuthController {
 		if (userDTO.getEurosPerHour() == 0) {
 			return ResponseEntity.badRequest().body("Your salary per hour is required");
 		}
-
+		if (userDTO.getEurosPerExtraHours() == 0) {
+			return ResponseEntity.badRequest().body("Your extra salary per hour is required");
+		}
 		if (userDTO.isFlexible() == null) {
 			return ResponseEntity.badRequest().body("Your schedule type is required");
 		}
@@ -64,7 +66,7 @@ public class BasicAuthController {
 
 		// Crear y guardar el nuevo usuario
 		User newUser = new User(userDTO.getName(), userDTO.getLastName(), userDTO.getUsername(),
-				encode.encode(userDTO.getPassword()), userDTO.getEurosPerHour(), userDTO.isFlexible());
+				encode.encode(userDTO.getPassword()), userDTO.getEurosPerHour(),userDTO.getEurosPerExtraHours(), userDTO.isFlexible());
 
 		usersRepository.save(newUser);
 
