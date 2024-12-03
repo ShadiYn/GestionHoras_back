@@ -15,8 +15,8 @@ public class WorkDay {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 	private LocalDate day;
 	private boolean attended;
@@ -27,11 +27,9 @@ public class WorkDay {
 	@OneToMany(mappedBy = "workDay", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Intervals> intervalsList;
 
-
 	public WorkDay() {
 		super();
 	}
-
 
 	public WorkDay(User user, LocalDate day, boolean attended, boolean justified, String description,
 			LocalDateTime created_at, LocalDateTime updated_at) {
@@ -41,15 +39,13 @@ public class WorkDay {
 		this.attended = attended;
 		this.justified = justified;
 		this.description = description;
-		this.created_at =  LocalDateTime.now();
+		this.created_at = LocalDateTime.now();
 		this.updated_at = LocalDateTime.now();
 	}
-
 
 	public int getId() {
 		return id;
 	}
-
 
 	public User getUser() {
 		return user;
@@ -103,7 +99,6 @@ public class WorkDay {
 	public LocalDateTime getUpdated_at() {
 		return updated_at;
 	}
-
 
 	public List<Intervals> getIntervalsList() {
 		return intervalsList;

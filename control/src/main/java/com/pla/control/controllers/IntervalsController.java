@@ -15,59 +15,54 @@ import java.util.List;
 @RequestMapping("/intervals")
 public class IntervalsController {
 
-    @Autowired
-    private IntervalsRepository intervalsRepository;
+	@Autowired
+	private IntervalsRepository intervalsRepository;
 
-    @Autowired
-    private WorkDayRepository workDayRepository;
+	@Autowired
+	private WorkDayRepository workDayRepository;
 
-    @PostMapping("/{workdayId}")
-    public ResponseEntity<Intervals> createInterval(
-            @PathVariable int workdayId,
-            @RequestBody Intervals interval) {
+	@PostMapping("/{workdayId}")
+	public ResponseEntity<Intervals> createInterval(@PathVariable int workdayId, @RequestBody Intervals interval) {
 
-        WorkDay workDay = workDayRepository.findById(workdayId)
-                .orElseThrow(() -> new RuntimeException("WorkDay not found"));
+		WorkDay workDay = workDayRepository.findById(workdayId)
+				.orElseThrow(() -> new RuntimeException("WorkDay not found"));
 
-        interval.setWorkDay(workDay);
-        Intervals savedInterval = intervalsRepository.save(interval);
+		interval.setWorkDay(workDay);
+		Intervals savedInterval = intervalsRepository.save(interval);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedInterval);
-    }
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedInterval);
+	}
 
-    @GetMapping
-    public List<Intervals> getAllIntervals() {
-        return intervalsRepository.findAll();
-    }
+	@GetMapping
+	public List<Intervals> getAllIntervals() {
+		return intervalsRepository.findAll();
+	}
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Intervals> getIntervalById(@PathVariable int id) {
-        Intervals interval = intervalsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Interval not found"));
-        return ResponseEntity.ok(interval);
-    }
+	@GetMapping("/{id}")
+	public ResponseEntity<Intervals> getIntervalById(@PathVariable int id) {
+		Intervals interval = intervalsRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Interval not found"));
+		return ResponseEntity.ok(interval);
+	}
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Intervals> updateInterval(
-            @PathVariable int id,
-            @RequestBody Intervals intervalDetails) {
+	@PutMapping("/{id}")
+	public ResponseEntity<Intervals> updateInterval(@PathVariable int id, @RequestBody Intervals intervalDetails) {
 
-        Intervals interval = intervalsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Interval not found"));
+		Intervals interval = intervalsRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Interval not found"));
 
-        interval.setStart_time(intervalDetails.getStart_time());
-        interval.setEnd_time(intervalDetails.getEnd_time());
+		interval.setStart_time(intervalDetails.getStart_time());
+		interval.setEnd_time(intervalDetails.getEnd_time());
 
-        Intervals updatedInterval = intervalsRepository.save(interval);
-        return ResponseEntity.ok(updatedInterval);
-    }
+		Intervals updatedInterval = intervalsRepository.save(interval);
+		return ResponseEntity.ok(updatedInterval);
+	}
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteInterval(@PathVariable int id) {
-        Intervals interval = intervalsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Interval not found"));
-        intervalsRepository.delete(interval);
-        return ResponseEntity.ok("Interval deleted successfully");
-    }
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteInterval(@PathVariable int id) {
+		Intervals interval = intervalsRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Interval not found"));
+		intervalsRepository.delete(interval);
+		return ResponseEntity.ok("Interval deleted successfully");
+	}
 }
-

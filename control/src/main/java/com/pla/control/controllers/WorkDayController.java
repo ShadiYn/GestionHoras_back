@@ -23,8 +23,6 @@ public class WorkDayController {
 
     @PostMapping
     public ResponseEntity<WorkDay> createWorkDay(@RequestBody WorkDay workDay) {
-        workDay.setCreated_at(LocalDateTime.now());
-        workDay.setUpdated_at(LocalDateTime.now());
         WorkDay savedWorkDay = workDayRepository.save(workDay);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedWorkDay);
     }
@@ -50,8 +48,6 @@ public class WorkDayController {
         workDay.setAttended(workDayDetails.isAttended());
         workDay.setJustified(workDayDetails.isJustified());
         workDay.setDescription(workDayDetails.getDescription());
-        workDay.setUpdated_at(LocalDateTime.now());
-
         WorkDay updatedWorkDay = workDayRepository.save(workDay);
         return ResponseEntity.ok(updatedWorkDay);
     }

@@ -7,23 +7,22 @@ import lombok.Setter;
 import java.time.LocalTime;
 
 @Entity
-@Table(name="intervals")
+@Table(name = "intervals")
 public class Intervals {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-    private LocalTime start_time;
-    private LocalTime end_time;
-    private float requiredHours;
-    private float overtime;
-    
-    @ManyToOne
-    @JoinColumn(name = "workday_id", nullable = false)
-    private WorkDay workDay;
-   
-    
-    public Intervals() {
+	private LocalTime start_time;
+	private LocalTime end_time;
+	private float requiredHours;
+	private float overtime;
+
+	@ManyToOne
+	@JoinColumn(name = "workday_id", nullable = false)
+	private WorkDay workDay;
+
+	public Intervals() {
 		super();
 	}
 
@@ -37,32 +36,32 @@ public class Intervals {
 	}
 
 	public int getId() {
-        return id;
-    }
+		return id;
+	}
 
-    public WorkDay getWorkDay() {
-        return workDay;
-    }
+	public WorkDay getWorkDay() {
+		return workDay;
+	}
 
-    public void setWorkDay(WorkDay workDay) {
-        this.workDay = workDay;
-    }
+	public void setWorkDay(WorkDay workDay) {
+		this.workDay = workDay;
+	}
 
-    public LocalTime getStart_time() {
-        return start_time;
-    }
+	public LocalTime getStart_time() {
+		return start_time;
+	}
 
-    public void setStart_time(LocalTime start_time) {
-        this.start_time = start_time;
-    }
+	public void setStart_time(LocalTime start_time) {
+		this.start_time = start_time;
+	}
 
-    public LocalTime getEnd_time() {
-        return end_time;
-    }
+	public LocalTime getEnd_time() {
+		return end_time;
+	}
 
-    public void setEnd_time(LocalTime end_time) {
-        this.end_time = end_time;
-    }
+	public void setEnd_time(LocalTime end_time) {
+		this.end_time = end_time;
+	}
 
 	public float getRequiredHours() {
 		return requiredHours;
@@ -79,5 +78,5 @@ public class Intervals {
 	public void setOvertime(float overtime) {
 		this.overtime = overtime;
 	}
-    
+
 }
