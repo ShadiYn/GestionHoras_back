@@ -58,7 +58,25 @@ public class IntervalsController {
 		Intervals updatedInterval = intervalsRepository.save(interval);
 		return ResponseEntity.ok(updatedInterval);
 	}
-
+	
+	@GetMapping("/{id}")
+	public LocalTime setIntervalStart(@PathVariable int id) {
+		Intervals interval = intervalsRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Interval not found"));
+		interval.setStart_time(LocalTime.now());
+		intervalsRepository.save(interval);
+		return LocalTime.now();
+		
+	}
+	@GetMapping("/{id}")
+	public LocalTime setIntervalEnd(@PathVariable int id) {
+		Intervals interval = intervalsRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Interval not found"));
+		interval.setEnd_time(LocalTime.now());
+		intervalsRepository.save(interval);
+		return LocalTime.now();
+		
+	}
 	
 	
 	
