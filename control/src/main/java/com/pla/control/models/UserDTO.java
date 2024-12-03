@@ -5,7 +5,7 @@ public class UserDTO {
     private String name;
     private String password;
     private String lastName;
-    private int eurosPerHour;
+    private float eurosPerHour;
     private Boolean isFlexible;
 
     public String getUsername() {
@@ -20,11 +20,11 @@ public class UserDTO {
         return name;
     }
 
-    public int getEurosPerHour() {
+    public float getEurosPerHour() {
         return eurosPerHour;
     }
 
-    public void setEurosPerHour(int eurosPerHour) {
+    public void setEurosPerHour(float eurosPerHour) {
         this.eurosPerHour = eurosPerHour;
     }
 
