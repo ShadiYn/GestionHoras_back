@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -58,6 +59,9 @@ public class IntervalsController {
 		return ResponseEntity.ok(updatedInterval);
 	}
 
+	
+	
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteInterval(@PathVariable int id) {
 		Intervals interval = intervalsRepository.findById(id)
@@ -65,4 +69,8 @@ public class IntervalsController {
 		intervalsRepository.delete(interval);
 		return ResponseEntity.ok("Interval deleted successfully");
 	}
+	
+	
+	
+	
 }

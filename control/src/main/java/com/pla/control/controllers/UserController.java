@@ -52,8 +52,7 @@ public class UserController {
 
 	@GetMapping
 	public ResponseEntity<User> getUserSettings(UsernamePasswordAuthenticationToken upa) {
-		User u = (User) upa.getPrincipal();
-		User a = usersRepository.findUserById(u.getId()); 
-		return ResponseEntity.ok(a);
+		User user = (User) upa.getPrincipal();
+		return ResponseEntity.ok(usersRepository.findUserById(user.getId()));
 	}
 }
