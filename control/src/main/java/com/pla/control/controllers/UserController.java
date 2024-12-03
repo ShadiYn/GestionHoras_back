@@ -51,10 +51,9 @@ public class UserController {
 	}
 
 	@GetMapping
-	public ResponseEntity<UserDTO> getUserSettings(UsernamePasswordAuthenticationToken authentication) {
-		User user = (User) authentication.getPrincipal();
-		UserDTO userDTO = new UserDTO(user.getUsername(), user.getName(), user.getLast_name(), user.getEurosPerHour(),
-				user.isFlexible());
-		return ResponseEntity.ok(userDTO);
+	public ResponseEntity<User> getUserSettings(UsernamePasswordAuthenticationToken upa) {
+		User u = (User) upa.getPrincipal();
+		User a = usersRepository.findUserById(u.getId()); 
+		return ResponseEntity.ok(a);
 	}
 }
