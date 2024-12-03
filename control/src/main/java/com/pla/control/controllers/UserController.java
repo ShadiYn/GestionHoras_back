@@ -6,6 +6,7 @@ import com.pla.control.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +51,7 @@ public class UserController {
 	}
 
 	@GetMapping
-	public ResponseEntity<UserDTO> getUserSettings(Authentication authentication) {
+	public ResponseEntity<UserDTO> getUserSettings(UsernamePasswordAuthenticationToken authentication) {
 		User user = (User) authentication.getPrincipal();
 		UserDTO userDTO = new UserDTO(user.getUsername(), user.getName(), user.getLast_name(), user.getEurosPerHour(),
 				user.isFlexible());
