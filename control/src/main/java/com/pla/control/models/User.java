@@ -27,7 +27,7 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private boolean isFlexible;
-    private int eurosPerHour;
+    private float eurosPerHour;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
     private boolean accountNonExpired;
@@ -42,7 +42,7 @@ public class User implements UserDetails {
     }
 
 
-    public User(String name, String last_name, String username, String password,int eurosPerHour, boolean isFlexible) {
+    public User(String name, String last_name, String username, String password,float eurosPerHour, boolean isFlexible) {
 		super();
 		this.name = name;
 		this.last_name = last_name;
@@ -107,11 +107,11 @@ public class User implements UserDetails {
         this.updated_at = LocalDateTime.now();
     }
 
-    public int getEurosPerHour() {
+    public float getEurosPerHour() {
         return eurosPerHour;
     }
 
-    public void setEurosPerHour(int eurosPerHour) {
+    public void setEurosPerHour(float eurosPerHour) {
         this.eurosPerHour = eurosPerHour;
         this.updated_at = LocalDateTime.now();
     }
