@@ -8,6 +8,17 @@ public class UserDTO {
     private int eurosPerHour;
     private Boolean isFlexible;
 
+    public UserDTO() {
+    }
+
+    public UserDTO(String username, String name, String lastName, int eurosPerHour, Boolean isFlexible) {
+        this.username = username;
+        this.name = name;
+        this.lastName = lastName;
+        this.eurosPerHour = eurosPerHour;
+        this.isFlexible = isFlexible;
+    }
+
     public String getUsername() {
         return username;
     }

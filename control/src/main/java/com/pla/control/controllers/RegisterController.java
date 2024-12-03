@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/register")
+@RequestMapping
 @RestController
 public class RegisterController {
 
@@ -18,7 +18,7 @@ public class RegisterController {
 	@Autowired
 	private BCryptPasswordEncoder encode;
 
-	@PostMapping
+	@PostMapping("/register")
 	public ResponseEntity<String> register(@RequestBody UserDTO userDTO) {
 
 		if (userDTO.getUsername() == null || userDTO.getUsername().isBlank()) {
@@ -41,12 +41,10 @@ public class RegisterController {
             return ResponseEntity.badRequest().body("Your schedule type is required");
         }
 
-		// Verificar si el usuario ya existe
 		if (usersRepository.existsByUsername(userDTO.getUsername())) {
 			return ResponseEntity.badRequest().body("This username already exists");
 		}
 
-		// Crear y guardar el nuevo usuario
 		User newUser = new User(userDTO.getName(), userDTO.getLastName(), userDTO.getUsername(),
 				encode.encode(userDTO.getPassword()),userDTO.getEurosPerHour(),userDTO.isFlexible());
 
