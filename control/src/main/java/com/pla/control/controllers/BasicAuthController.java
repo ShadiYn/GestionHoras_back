@@ -13,12 +13,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+//Controlador para el registro y el inicio de sesion del usuario.
 public class BasicAuthController {
 	@Autowired
 	private UsersRepository usersRepository;
 
 	@Autowired
 	private BCryptPasswordEncoder encode;
+	
+	//------------------------------------------------------------------------
+	// 								Login / basicauth
+	//------------------------------------------------------------------------
 
 	@PostMapping(path = "/login")
 	public ResponseEntity<String> basicauth(UsernamePasswordAuthenticationToken upa) {
@@ -33,10 +38,16 @@ public class BasicAuthController {
 		return ResponseEntity.ok().body("{\"resp\":\"Login exitoso\", \"id\":" + user.getId() + "}");
 
 	}
+	
+	//------------------------------------------------------------------------
+	// 								Register
+	//------------------------------------------------------------------------
 
 	@PostMapping(path = "/register")
 	public ResponseEntity<String> register(@RequestBody UserDTO userDTO) {
 
+		//Comprobar si hay algo que es null en la peticion
+		
 		if (userDTO.getUsername() == null || userDTO.getUsername().isBlank()) {
 			return ResponseEntity.badRequest().body("The username is required");
 		}
@@ -52,7 +63,9 @@ public class BasicAuthController {
 		if (userDTO.getEurosPerHour() == 0) {
 			return ResponseEntity.badRequest().body("Your salary per hour is required");
 		}
-
+		if (userDTO.getEurosPerExtraHours() == 0) {
+			return ResponseEntity.badRequest().body("Your extra salary per hour is required");
+		}
 		if (userDTO.isFlexible() == null) {
 			return ResponseEntity.badRequest().body("Your schedule type is required");
 		}
@@ -62,12 +75,12 @@ public class BasicAuthController {
 			return ResponseEntity.badRequest().body("This username already exists");
 		}
 
-		// Crear y guardar el nuevo usuario
+		// Si todo lo anterior es correcto creamos y guardamos el nuevo usuario
 		User newUser = new User(userDTO.getName(), userDTO.getLastName(), userDTO.getUsername(),
-				encode.encode(userDTO.getPassword()), userDTO.getEurosPerHour(), userDTO.isFlexible());
+				encode.encode(userDTO.getPassword()), userDTO.getEurosPerHour(),userDTO.getEurosPerExtraHours(), userDTO.isFlexible());
 
 		usersRepository.save(newUser);
-
+		//Respuesta de que todo ha ido correctamente.
 		return ResponseEntity.ok("Registration successful");
 	}
 
