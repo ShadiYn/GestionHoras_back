@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +27,7 @@ public class WorkDay {
 	private LocalDateTime created_at;
 	private LocalDateTime updated_at;
 	@OneToMany(mappedBy = "workDay", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
 	private List<Intervals> intervalsList;
 
 	public WorkDay() {

@@ -27,6 +27,7 @@ public class UserController {
 	// ------------------------------------------------------------------------
 	// Update User
 	// ------------------------------------------------------------------------
+	
 	@PutMapping("/updateuser")
 	public ResponseEntity<String> updateUser(UsernamePasswordAuthenticationToken upa, @RequestBody UserDTO userUpdateDTO) {
 		User user = (User) upa.getPrincipal();
@@ -65,6 +66,7 @@ public class UserController {
 		// Respuesta hacia el front de que todo ha ido correctamente
 		return ResponseEntity.ok("User updated successfully");
 	}
+	
 	@PutMapping("/updatepassword")
 	public ResponseEntity<String> updateUserPassword(UsernamePasswordAuthenticationToken upa, @RequestBody String password) {
 		User user = (User) upa.getPrincipal();
