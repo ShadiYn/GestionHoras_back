@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -34,10 +36,9 @@ public class WorkDay {
 		super();
 	}
 
-	public WorkDay(User user, LocalDate day, boolean attended, boolean justified, String description,
-			LocalDateTime created_at, LocalDateTime updated_at) {
+	public WorkDay(LocalDate day, boolean attended, boolean justified, String description, LocalDateTime created_at,
+			LocalDateTime updated_at) {
 		super();
-		this.user = user;
 		this.day = day;
 		this.attended = attended;
 		this.justified = justified;

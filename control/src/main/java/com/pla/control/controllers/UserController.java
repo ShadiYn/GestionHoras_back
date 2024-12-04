@@ -28,6 +28,14 @@ public class UserController {
 	// Update User
 	// ------------------------------------------------------------------------
 	
+	/* 
+	 * Modifica la informacion del usuario
+	 * 	Entrada:
+	 * 		- upa: token del usuario registrado.
+	 * 		- UserDTO user: Objeto userDTO sin usar la contraseña
+	 * 	Salida:
+	 * 		- 
+	 * */
 	@PutMapping("/updateuser")
 	public ResponseEntity<String> updateUser(UsernamePasswordAuthenticationToken upa, @RequestBody UserDTO userUpdateDTO) {
 		User user = (User) upa.getPrincipal();
