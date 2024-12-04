@@ -12,15 +12,6 @@ public class UserDTO {
 	public UserDTO() {
 	}
 
-	public UserDTO(String username, String name, String lastName, float eurosPerHour, float eurosPerExtraHours, Boolean isFlexible) {
-		this.username = username;
-		this.name = name;
-		this.lastName = lastName;
-		this.eurosPerHour = eurosPerHour;
-		this.eurosPerExtraHours = eurosPerExtraHours;
-		this.isFlexible = isFlexible;
-	}
-
 	public String getUsername() {
 		return username;
 	}
