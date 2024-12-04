@@ -95,6 +95,15 @@ public class UserController {
 		
 		return ResponseEntity.ok("User password updated successfully");
 	}
+	
+	@GetMapping("/checkpassword")
+	public ResponseEntity<String> checkPassword(UsernamePasswordAuthenticationToken upa,@RequestBody String oldpassword) {
+		User user = (User) upa.getPrincipal();
+		if(user.getPassword().equals(encode.encode(oldpassword))) {
+			return ResponseEntity.ok("Correct password");
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Incorrect password");
+	}
 
 	// ------------------------------------------------------------------------
 	// getUser
@@ -105,4 +114,7 @@ public class UserController {
 		User user = (User) upa.getPrincipal();
 		return ResponseEntity.ok(usersRepository.findUserById(user.getId()));
 	}
+	
+
+	
 }
