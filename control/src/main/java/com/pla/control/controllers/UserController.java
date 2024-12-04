@@ -27,6 +27,15 @@ public class UserController {
 	// ------------------------------------------------------------------------
 	// Update User
 	// ------------------------------------------------------------------------
+	
+	/* 
+	 * Modifica la informacion del usuario
+	 * 	Entrada:
+	 * 		- upa: token del usuario registrado.
+	 * 		- UserDTO user: Objeto userDTO sin usar la contraseña
+	 * 	Salida:
+	 * 		- 
+	 * */
 	@PutMapping("/updateuser")
 	public ResponseEntity<String> updateUser(UsernamePasswordAuthenticationToken upa, @RequestBody UserDTO userUpdateDTO) {
 		User user = (User) upa.getPrincipal();
@@ -65,6 +74,7 @@ public class UserController {
 		// Respuesta hacia el front de que todo ha ido correctamente
 		return ResponseEntity.ok("User updated successfully");
 	}
+	
 	@PutMapping("/updatepassword")
 	public ResponseEntity<String> updateUserPassword(UsernamePasswordAuthenticationToken upa, @RequestBody String password) {
 		User user = (User) upa.getPrincipal();
@@ -85,6 +95,15 @@ public class UserController {
 
 		return ResponseEntity.ok("User password updated successfully");
 	}
+	
+	@GetMapping("/checkpassword")
+	public ResponseEntity<String> checkPassword(UsernamePasswordAuthenticationToken upa,@RequestBody String oldpassword) {
+		User user = (User) upa.getPrincipal();
+		if(user.getPassword().equals(encode.encode(oldpassword))) {
+			return ResponseEntity.ok("Correct password");
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Incorrect password");
+	}
 
 	// ------------------------------------------------------------------------
 	// getUser
@@ -95,4 +114,7 @@ public class UserController {
 		User user = (User) upa.getPrincipal();
 		return ResponseEntity.ok(usersRepository.findUserById(user.getId()));
 	}
+	
+
+	
 }

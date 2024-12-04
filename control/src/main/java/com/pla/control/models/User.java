@@ -16,6 +16,8 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -36,6 +38,7 @@ public class User implements UserDetails {
 	private boolean credentialsNonExpired;
 	private boolean enabled;
 	@OneToMany(mappedBy = "user")
+	@JsonIgnore
 	private List<WorkDay> workDays;
 
 	public User() {
