@@ -35,6 +35,7 @@ public class UserController {
 
 		if (userUpdateDTO.getPassword() != null && !userUpdateDTO.getPassword().isBlank()) {
 			userToUpdate.setPassword(encode.encode(userUpdateDTO.getPassword()));
+			System.out.println("------------------" + encode.encode(userUpdateDTO.getPassword()));
 		}
 
 		if (userUpdateDTO.getName() != null && !userUpdateDTO.getName().isBlank()) {
