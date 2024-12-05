@@ -102,12 +102,12 @@ public class UserController {
 		if(user.getPassword().equals(encode.encode(oldpassword))) {
 			return ResponseEntity.ok("Correct password");
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Incorrect password");
+		return ResponseEntity.badRequest().body("Incorrect password");
 	}
 
 	// ------------------------------------------------------------------------
 	// getUser
-	// ------------------------------------------------------------------------
+	// -------------------------------------------------------- ----------------
 
 	@GetMapping
 	public ResponseEntity<User> getUserSettings(UsernamePasswordAuthenticationToken upa) {
