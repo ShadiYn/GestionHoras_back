@@ -34,6 +34,22 @@ public class WorkDayController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedWorkDay);
     }
 
+    @GetMapping("/current")
+    public ResponseEntity<WorkDay> getOrCreateCurrentWorkDay(UsernamePasswordAuthenticationToken upa) {
+        User user = (User) upa.getPrincipal();
+        LocalDate today = LocalDate.now();
+
+        WorkDay workDay = workDayRepository.findByUserAndDay(user, today)
+                .orElseGet(() -> {
+                    WorkDay newWorkDay = new WorkDay(today, false, false, "", LocalDateTime.now(), LocalDateTime.now());
+                    newWorkDay.setUser(user);
+                    return workDayRepository.save(newWorkDay);
+                });
+
+        return ResponseEntity.ok(workDay);
+    }
+
+
     @GetMapping
     public List<WorkDay> getAllWorkDays() {
         return workDayRepository.findAll();
