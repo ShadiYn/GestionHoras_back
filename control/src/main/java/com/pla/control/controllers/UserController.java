@@ -27,17 +27,14 @@ public class UserController {
 	// ------------------------------------------------------------------------
 	// Update User
 	// ------------------------------------------------------------------------
-	
-	/* 
-	 * Modifica la informacion del usuario
-	 * 	Entrada:
-	 * 		- upa: token del usuario registrado.
-	 * 		- UserDTO user: Objeto userDTO sin usar la contraseña
-	 * 	Salida:
-	 * 		- 
-	 * */
+
+	/*
+	 * Modifica la informacion del usuario Entrada: - upa: token del usuario
+	 * registrado. - UserDTO user: Objeto userDTO sin usar la contraseña Salida: -
+	 */
 	@PutMapping("/updateuser")
-	public ResponseEntity<String> updateUser(UsernamePasswordAuthenticationToken upa, @RequestBody UserDTO userUpdateDTO) {
+	public ResponseEntity<String> updateUser(UsernamePasswordAuthenticationToken upa,
+			@RequestBody UserDTO userUpdateDTO) {
 		User user = (User) upa.getPrincipal();
 		// Buscamos al usuario en la base de datos.
 		User userToUpdate = usersRepository.findUserById(user.getId());
@@ -74,9 +71,10 @@ public class UserController {
 		// Respuesta hacia el front de que todo ha ido correctamente
 		return ResponseEntity.ok("User updated successfully");
 	}
-	
+
 	@PutMapping("/updatepassword")
-	public ResponseEntity<String> updateUserPassword(UsernamePasswordAuthenticationToken upa, @RequestBody String password) {
+	public ResponseEntity<String> updateUserPassword(UsernamePasswordAuthenticationToken upa,
+			@RequestBody String password) {
 		User user = (User) upa.getPrincipal();
 		User userToUpdate = usersRepository.findUserById(user.getId());
 		// Si no es encontrado damos un error
@@ -84,10 +82,10 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
 		}
 
-		if(userToUpdate.getPassword().equals(encode.encode(password))) {
+		if (userToUpdate.getPassword().equals(encode.encode(password))) {
 			return ResponseEntity.badRequest().body("It's the same password");
 		}
-		if(password.isBlank() || password.isEmpty()) {
+		if (password.isBlank() || password.isEmpty()) {
 			return ResponseEntity.badRequest().body("It's the same password");
 		}
 		userToUpdate.setPassword(encode.encode(password));
@@ -95,11 +93,18 @@ public class UserController {
 
 		return ResponseEntity.ok("User password updated successfully");
 	}
-	
+
+
+
 	@GetMapping("/checkpassword")
-	public ResponseEntity<String> checkPassword(UsernamePasswordAuthenticationToken upa,@RequestBody String oldpassword) {
+	public ResponseEntity<String> checkPassword(UsernamePasswordAuthenticationToken upa,
+			@RequestBody String oldpassword) {
 		User user = (User) upa.getPrincipal();
-		if(user.getPassword().equals(encode.encode(oldpassword))) {
+		System.out.println("bocata " + encode.matches(oldpassword, user.getPassword()));
+		System.out.println("oldpassword " + oldpassword);
+		System.out.println("oldpassword encoded" + encode.encode(oldpassword));
+		System.out.println("actual " + user.getPassword());
+		if (encode.matches(oldpassword, user.getPassword())) {
 			return ResponseEntity.ok("Correct password");
 		}
 		return ResponseEntity.badRequest().body("Incorrect password");
@@ -114,7 +119,5 @@ public class UserController {
 		User user = (User) upa.getPrincipal();
 		return ResponseEntity.ok(usersRepository.findUserById(user.getId()));
 	}
-	
 
-	
 }
