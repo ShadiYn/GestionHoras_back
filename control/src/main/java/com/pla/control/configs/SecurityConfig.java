@@ -56,7 +56,7 @@ public class SecurityConfig {
 
 					try {
 						// Definimos que urls estarán desprotegidas y no necesitarán recibir las credenciales para poder ser accedidas
-						requests.requestMatchers("/endpointdesprotegido", "/register", "/login").permitAll().anyRequest().authenticated();
+						requests.requestMatchers("/endpointdesprotegido", "/register", "/login"	).permitAll().anyRequest().authenticated();
 
 					} catch (Exception e) {
 						System.out.println("Croqueta");

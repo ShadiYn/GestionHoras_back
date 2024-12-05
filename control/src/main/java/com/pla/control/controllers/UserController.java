@@ -83,7 +83,7 @@ public class UserController {
 		if (userToUpdate == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
 		}
-		
+
 		if(userToUpdate.getPassword().equals(encode.encode(password))) {
 			return ResponseEntity.badRequest().body("It's the same password");
 		}
@@ -92,7 +92,7 @@ public class UserController {
 		}
 		userToUpdate.setPassword(encode.encode(password));
 		usersRepository.save(userToUpdate);
-		
+
 		return ResponseEntity.ok("User password updated successfully");
 	}
 	
