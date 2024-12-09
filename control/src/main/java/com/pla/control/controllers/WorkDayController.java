@@ -12,8 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -33,6 +35,25 @@ public class WorkDayController {
         WorkDay savedWorkDay = workDayRepository.save(workDay);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedWorkDay);
     }
+
+    @GetMapping("/current")
+    public ResponseEntity<WorkDay> getOrCreateCurrentWorkDay(UsernamePasswordAuthenticationToken upa) {
+        User user = (User) upa.getPrincipal();
+        LocalDate today = LocalDate.now();
+
+        WorkDay workDay = workDayRepository.findByUserAndDay(user, today)
+                .orElseGet(() -> {
+                    WorkDay newWorkDay = new WorkDay(today, false, false, "", LocalDateTime.now(), LocalDateTime.now());
+                    newWorkDay.setUser(user);
+                    return workDayRepository.save(newWorkDay);
+                });
+
+        return ResponseEntity.ok(workDay);
+    }
+
+
+
+
 
     @GetMapping
     public List<WorkDay> getAllWorkDays() {
@@ -67,12 +88,7 @@ public class WorkDayController {
         return ResponseEntity.ok("WorkDay deleted successfully");
     }
     
-    @GetMapping("/currentmonth/{id}")
-    public List<WorkDay> getForCurrentMonth(@PathVariable int id) {
-        LocalDate startDate = LocalDate.now().withDayOfMonth(1); // First day of the month
-        LocalDate endDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()); // Last day of the month
-        return workDayRepository.findByDayBetween(startDate, endDate);
-    }
+
     
     
 }

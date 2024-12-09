@@ -35,6 +35,10 @@ public class Intervals {
 		this.workDay = workDay;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -78,5 +82,6 @@ public class Intervals {
 	public void setOvertime(float overtime) {
 		this.overtime = overtime;
 	}
+
 
 }
