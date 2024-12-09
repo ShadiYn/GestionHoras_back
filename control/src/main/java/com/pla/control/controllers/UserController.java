@@ -76,7 +76,7 @@ public class UserController {
 	}
 	
 	@PutMapping("/updatepassword")
-	public ResponseEntity<String> updateUserPassword(UsernamePasswordAuthenticationToken upa, @RequestBody String password) {
+	public ResponseEntity<String> updateUserPassword(UsernamePasswordAuthenticationToken upa, @RequestParam String password) {
 		User user = (User) upa.getPrincipal();
 		User userToUpdate = usersRepository.findUserById(user.getId());
 		// Si no es encontrado damos un error
@@ -97,7 +97,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/checkpassword")
-	public ResponseEntity<String> checkPassword(UsernamePasswordAuthenticationToken upa,@RequestBody String oldpassword) {
+	public ResponseEntity<String> checkPassword(UsernamePasswordAuthenticationToken upa,@RequestParam String oldpassword) {
 		User user = (User) upa.getPrincipal();
 		System.out.println("Boolean " + encode.matches(oldpassword, user.getPassword()));
 		System.out.println("userpass "+ user.getPassword());

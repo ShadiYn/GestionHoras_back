@@ -22,73 +22,98 @@ import java.util.List;
 @RequestMapping("/workdays")
 public class WorkDayController {
 
-    @Autowired
-    WorkDayRepository workDayRepository;
+	@Autowired
+	WorkDayRepository workDayRepository;
 
-    @Autowired
-    UsersRepository usersRepository;
+	@Autowired
+	UsersRepository usersRepository;
 
-    @PostMapping
-    public ResponseEntity<WorkDay> createWorkDay(UsernamePasswordAuthenticationToken upa, @RequestBody WorkDay workDay) {
-    	User user =  (User) upa.getPrincipal();
-    	workDay.setUser(user);
-        WorkDay savedWorkDay = workDayRepository.save(workDay);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedWorkDay);
-    }
+	@PostMapping
+	public ResponseEntity<WorkDay> createWorkDay(UsernamePasswordAuthenticationToken upa,
+			@RequestBody WorkDay workDay) {
+		User user = (User) upa.getPrincipal();
+		workDay.setUser(user);
+		WorkDay savedWorkDay = workDayRepository.save(workDay);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedWorkDay);
+	}
 
-    @GetMapping("/current")
-    public ResponseEntity<WorkDay> getOrCreateCurrentWorkDay(UsernamePasswordAuthenticationToken upa) {
-        User user = (User) upa.getPrincipal();
-        LocalDate today = LocalDate.now();
+	@GetMapping("/current")
+	public ResponseEntity<WorkDay> getOrCreateCurrentWorkDay(UsernamePasswordAuthenticationToken upa) {
+		User user = (User) upa.getPrincipal();
+		LocalDate today = LocalDate.now();
 
-        WorkDay workDay = workDayRepository.findByUserAndDay(user, today)
-                .orElseGet(() -> {
-                    WorkDay newWorkDay = new WorkDay(today, false, false, "", LocalDateTime.now(), LocalDateTime.now());
-                    newWorkDay.setUser(user);
-                    return workDayRepository.save(newWorkDay);
-                });
+		WorkDay workDay = workDayRepository.findByUserAndDay(user, today).orElseGet(() -> {
+			WorkDay newWorkDay = new WorkDay(today, false, false, "", LocalDateTime.now(), LocalDateTime.now());
+			newWorkDay.setUser(user);
+			return workDayRepository.save(newWorkDay);
+		});
 
-        return ResponseEntity.ok(workDay);
-    }
+		return ResponseEntity.ok(workDay);
+	}
 
+	@GetMapping("/current-month")
+	public ResponseEntity<List<WorkDay>> getWorkDaysForCurrentMonth(UsernamePasswordAuthenticationToken upa) {
+		User user = (User) upa.getPrincipal();
 
+		// Obtener el primer día del mes actual y el último día del mes actual
+		LocalDate now = LocalDate.now();
+		LocalDate startOfMonth = now.withDayOfMonth(1); // Primer día del mes
+		LocalDate endOfMonth = now.withDayOfMonth(now.lengthOfMonth()); // Último día del mes
 
+		// Obtener los días de trabajo del usuario para el mes actual
+		List<WorkDay> workDays = workDayRepository.findByUserAndMonth(user, startOfMonth, endOfMonth);
 
+		return ResponseEntity.ok(workDays);
+	}
 
-    @GetMapping
-    public List<WorkDay> getAllWorkDays() {
-        return workDayRepository.findAll();
-    }
+	@GetMapping("/for-month")
+	public ResponseEntity<List<WorkDay>> getWorkDaysForSpecificMonth(@RequestParam int month, @RequestParam int year,
+			UsernamePasswordAuthenticationToken upa) {
+		User user = (User) upa.getPrincipal();
 
-    @GetMapping("/{id}")
-    public ResponseEntity<WorkDay> getWorkDayById(@PathVariable int id) {
-        WorkDay workDay = workDayRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("WorkDay not found"));
-        return ResponseEntity.ok(workDay);
-    }
+		// Validar si el mes y año son válidos
+		if (month < 1 || month > 12 || year < 1900 || year > LocalDate.now().getYear()) {
+			return ResponseEntity.badRequest().body(null);
+		}
 
-    @PutMapping("/{id}")
-    public ResponseEntity<WorkDay> updateWorkDay(@PathVariable int id, @RequestBody WorkDay workDayDetails) {
-        WorkDay workDay = workDayRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("WorkDay not found"));
+		// Calcular el primer y último día del mes y año especificados
+		LocalDate startOfMonth = LocalDate.of(year, month, 1); // Primer día del mes
+		LocalDate endOfMonth = startOfMonth.withDayOfMonth(startOfMonth.lengthOfMonth()); // Último día del mes
 
-        workDay.setDay(workDayDetails.getDay());
-        workDay.setAttended(workDayDetails.isAttended());
-        workDay.setJustified(workDayDetails.isJustified());
-        workDay.setDescription(workDayDetails.getDescription());
-        WorkDay updatedWorkDay = workDayRepository.save(workDay);
-        return ResponseEntity.ok(updatedWorkDay);
-    }
+		// Obtener los días de trabajo del usuario para ese mes y año
+		List<WorkDay> workDays = workDayRepository.findByUserAndMonthAndYear(user, startOfMonth, endOfMonth);
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteWorkDay(@PathVariable int id) {
-        WorkDay workDay = workDayRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("WorkDay not found"));
-        workDayRepository.delete(workDay);
-        return ResponseEntity.ok("WorkDay deleted successfully");
-    }
-    
+		return ResponseEntity.ok(workDays);
+	}
 
-    
-    
+	@GetMapping
+	public List<WorkDay> getAllWorkDays() {
+		return workDayRepository.findAll();
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<WorkDay> getWorkDayById(@PathVariable int id) {
+		WorkDay workDay = workDayRepository.findById(id).orElseThrow(() -> new RuntimeException("WorkDay not found"));
+		return ResponseEntity.ok(workDay);
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<WorkDay> updateWorkDay(@PathVariable int id, @RequestBody WorkDay workDayDetails) {
+		WorkDay workDay = workDayRepository.findById(id).orElseThrow(() -> new RuntimeException("WorkDay not found"));
+
+		workDay.setDay(workDayDetails.getDay());
+		workDay.setAttended(workDayDetails.isAttended());
+		workDay.setJustified(workDayDetails.isJustified());
+		workDay.setDescription(workDayDetails.getDescription());
+		WorkDay updatedWorkDay = workDayRepository.save(workDay);
+		return ResponseEntity.ok(updatedWorkDay);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteWorkDay(@PathVariable int id) {
+		WorkDay workDay = workDayRepository.findById(id).orElseThrow(() -> new RuntimeException("WorkDay not found"));
+		workDayRepository.delete(workDay);
+		return ResponseEntity.ok("WorkDay deleted successfully");
+	}
+
 }
