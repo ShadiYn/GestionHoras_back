@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "intervals")
 public class Intervals {
@@ -19,6 +21,7 @@ public class Intervals {
 	private float overtime;
 
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "workday_id", nullable = false)
 	private WorkDay workDay;
 
