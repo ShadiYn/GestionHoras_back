@@ -8,11 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -25,7 +22,7 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
-	private String last_name;
+	private String lastName;
 	private String username;
 	private String password;
 	private boolean isFlexible;
@@ -44,11 +41,11 @@ public class User implements UserDetails {
 	public User() {
 	}
 
-	public User(String name, String last_name, String username, String password, float eurosPerHour,
+	public User(String name, String lastName, String username, String password, float eurosPerHour,
 			float eurosPerExtraHours, boolean isFlexible) {
 		super();
 		this.name = name;
-		this.last_name = last_name;
+		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
 		this.created_at = LocalDateTime.now();
@@ -128,12 +125,12 @@ public class User implements UserDetails {
 		this.updated_at = LocalDateTime.now();
 	}
 
-	public String getLast_name() {
-		return last_name;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public void setUsername(String username) {

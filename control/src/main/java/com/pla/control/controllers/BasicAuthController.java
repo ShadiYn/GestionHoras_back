@@ -66,9 +66,6 @@ public class BasicAuthController {
 		if (userDTO.getEurosPerExtraHours() == 0) {
 			return ResponseEntity.badRequest().body("Your extra salary per hour is required");
 		}
-		if (userDTO.isFlexible() == null) {
-			return ResponseEntity.badRequest().body("Your schedule type is required");
-		}
 
 		// Verificar si el usuario ya existe
 		if (usersRepository.existsByUsername(userDTO.getUsername())) {

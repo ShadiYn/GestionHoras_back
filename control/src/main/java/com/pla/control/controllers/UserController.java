@@ -4,13 +4,10 @@ import com.pla.control.models.User;
 import com.pla.control.models.UserDTO;
 import com.pla.control.repositories.UsersRepository;
 
-import java.security.Principal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,7 +53,7 @@ public class UserController {
 		}
 
 		if (userUpdateDTO.getLastName() != null && !userUpdateDTO.getLastName().isBlank()) {
-			userToUpdate.setLast_name(userUpdateDTO.getLastName());
+			userToUpdate.setLastName(userUpdateDTO.getLastName());
 		}
 
 		// E/h
@@ -67,8 +64,10 @@ public class UserController {
 		if (userUpdateDTO.getEurosPerExtraHours() > 0) {
 			userToUpdate.setEurosPerExtraHours(userUpdateDTO.getEurosPerExtraHours());
 		}
+		System.out.println("111111111111" + userUpdateDTO.toString());
 		// is flexibe
 		userToUpdate.setFlexible(userUpdateDTO.isFlexible());
+
 		// Guardamos el usuario y lo actualizamos.
 		usersRepository.save(userToUpdate);
 		// Respuesta hacia el front de que todo ha ido correctamente
@@ -95,14 +94,14 @@ public class UserController {
 
 		return ResponseEntity.ok("User password updated successfully");
 	}
-	
-	@GetMapping("/checkpassword")
-	public ResponseEntity<String> checkPassword(UsernamePasswordAuthenticationToken upa,@RequestBody String oldpassword) {
+
+	@PostMapping("/checkpassword")
+	public ResponseEntity<String> checkPassword(UsernamePasswordAuthenticationToken upa, @RequestBody String oldPassword) {
 		User user = (User) upa.getPrincipal();
-		System.out.println("Boolean " + encode.matches(oldpassword, user.getPassword()));
-		System.out.println("userpass "+ user.getPassword());
-		System.out.println("Pass to check "+ encode.encode(oldpassword));
-		if(encode.matches(oldpassword, user.getPassword())) {
+		System.out.println("Boolean " + encode.matches(oldPassword, user.getPassword()));
+		System.out.println("userpass " + user.getPassword());
+		System.out.println("Pass to check " + encode.encode(oldPassword));
+		if (encode.matches(oldPassword, user.getPassword())) {
 			return ResponseEntity.ok("Correct password");
 		}
 		return ResponseEntity.badRequest().body("Incorrect password");

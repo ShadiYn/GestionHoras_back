@@ -7,7 +7,7 @@ public class UserDTO {
 	private String lastName;
 	private float eurosPerHour;
 	private float eurosPerExtraHours;
-	private Boolean isFlexible;
+	private boolean isFlexible;
 
 	public UserDTO() {
 	}
@@ -32,11 +32,11 @@ public class UserDTO {
 		this.eurosPerHour = eurosPerHour;
 	}
 
-	public Boolean isFlexible() {
+	public boolean isFlexible() {
 		return isFlexible;
 	}
 
-	public void setIsFlexible(Boolean flexible) {
+	public void setIsFlexible(boolean flexible) {
 		isFlexible = flexible;
 	}
 
@@ -67,5 +67,17 @@ public class UserDTO {
 	public void setEurosPerExtraHours(float eurosPerExtraHours) {
 		this.eurosPerExtraHours = eurosPerExtraHours;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "UserDTO{" +
+				"username='" + username + '\'' +
+				", name='" + name + '\'' +
+				", password='" + password + '\'' +
+				", lastName='" + lastName + '\'' +
+				", eurosPerHour=" + eurosPerHour +
+				", eurosPerExtraHours=" + eurosPerExtraHours +
+				", isFlexible=" + isFlexible +
+				'}';
+	}
 }
