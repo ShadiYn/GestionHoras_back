@@ -29,7 +29,7 @@ public class WorkDay {
 	private LocalDateTime created_at;
 	private LocalDateTime updated_at;
 	@OneToMany(mappedBy = "workDay", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnore
+
 	private List<Intervals> intervalsList;
 
 	public WorkDay() {
