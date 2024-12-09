@@ -93,8 +93,8 @@ public class IntervalsController {
 	 ****************************************************************************/
 	
 	@GetMapping
-	public List<Intervals> getAllIntervals() {
-		return intervalsRepository.findAll();
+	public ResponseEntity<List<Intervals>> getAllIntervals() {
+		return ResponseEntity.ok(intervalsRepository.findAll());
 	}
 
 	// ------------------------------------------------------------------------
@@ -109,16 +109,12 @@ public class IntervalsController {
 	 * 		- ResponseEntity.ok(interval): El objeto intervalo.						*
 	 ********************************************************************************/
 	@GetMapping("/interval/{id}")
-	public ResponseEntity<Intervals> getInterval(@PathVariable Long id) {
-		Optional<Intervals> interval = intervalsRepository.findById(id);
-
-		// Si no se encuentra el intervalo, se devuelve 404
-		if (interval.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
+	public ResponseEntity<Intervals> getInterval(@PathVariable int id) {
+		Intervals interval = intervalsRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Interval not found"));
 
 		// Si se encuentra, se devuelve el intervalo con un código 200 OK
-		return ResponseEntity.ok(interval.get());
+		return ResponseEntity.ok(interval);
 	}
 
 
@@ -135,7 +131,7 @@ public class IntervalsController {
 	 * 		- ResponseEntity.ok(updatedInterval): El objeto intervalo modificado.	*
 	 ********************************************************************************/
 	@PutMapping("/{id}")
-	public ResponseEntity<Intervals> updateInterval(@PathVariable Long id, @RequestBody Intervals intervalDetails) {
+	public ResponseEntity<Intervals> updateInterval(@PathVariable int id, @RequestBody Intervals intervalDetails) {
 
 		Intervals interval = intervalsRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Interval not found"));
@@ -159,12 +155,12 @@ public class IntervalsController {
 	 * 		- LocalTime.now(): Devolvemos la hora actual.
 	 */
 	@GetMapping("start/{id}")
-	public LocalTime setIntervalStart(@PathVariable Long id) {
+	public ResponseEntity<LocalTime> setIntervalStart(@PathVariable int id) {
 		Intervals interval = intervalsRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Interval not found"));
+			    .orElseThrow(() -> new RuntimeException("Interval not found"));
 		interval.setStart_time(LocalTime.now());
 		intervalsRepository.save(interval);
-		return LocalTime.now();
+		return ResponseEntity.ok(LocalTime.now());
 
 	}
 
@@ -174,12 +170,12 @@ public class IntervalsController {
 	// 	Devuelve:
 	// 		- LocalTime.now(): Devolvemos la hora actual.
 	@GetMapping("end/{id}")
-	public LocalTime setIntervalEnd(@PathVariable Long id) {
+	public ResponseEntity<LocalTime> setIntervalEnd(@PathVariable int id) {
 		Intervals interval = intervalsRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Interval not found"));
 		interval.setEnd_time(LocalTime.now());
 		intervalsRepository.save(interval);
-		return LocalTime.now();
+		return ResponseEntity.ok(LocalTime.now());
 
 	}
 
@@ -195,7 +191,7 @@ public class IntervalsController {
 	 * 		- ResponseEntity.ok("Interval deleted successfully"): Devolvemos una String con un mensaje.	*
 	 ****************************************************************************************************/
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteInterval(@PathVariable Long id) {
+	public ResponseEntity<String> deleteInterval(@PathVariable int id) {
 		Intervals interval = intervalsRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Interval not found"));
 		intervalsRepository.delete(interval);

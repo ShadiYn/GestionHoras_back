@@ -8,8 +8,9 @@ import java.util.Optional;
 import com.pla.control.models.WorkDay;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IntervalsRepository extends JpaRepository<Intervals, Long> {
+public interface IntervalsRepository extends JpaRepository<Intervals, Integer> {
     List<Intervals> findByWorkDayIn(List<WorkDay> workDays);
 
-    Optional<Intervals> findById(Long id);
+
+    
 }
