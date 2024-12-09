@@ -99,7 +99,10 @@ public class UserController {
 	@GetMapping("/checkpassword")
 	public ResponseEntity<String> checkPassword(UsernamePasswordAuthenticationToken upa,@RequestBody String oldpassword) {
 		User user = (User) upa.getPrincipal();
-		if(user.getPassword().equals(encode.encode(oldpassword))) {
+		System.out.println("Boolean " + encode.matches(oldpassword, user.getPassword()));
+		System.out.println("userpass "+ user.getPassword());
+		System.out.println("Pass to check "+ encode.encode(oldpassword));
+		if(encode.matches(oldpassword, user.getPassword())) {
 			return ResponseEntity.ok("Correct password");
 		}
 		return ResponseEntity.badRequest().body("Incorrect password");
