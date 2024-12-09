@@ -130,13 +130,11 @@ public class IntervalsController {
 
 	}
 
-	/************************************************************************
-	 * Con un click de un boton guarda el final de la hora al intervalo.	*
-	 * 	Recibe:																*
-	 * 		- int id: id del intervalo a buscar.							*
-	 *	Devuelve:															*
-	 * 		- LocalTime.now(): Devolvemos la hora actual.					*
-	 ************************************************************************/
+	// Con un click de un boton guarda el final de la hora al intervalo.
+	// 	Recibe:
+	// 		- int id: id del intervalo a buscar.
+	// 	Devuelve:
+	// 		- LocalTime.now(): Devolvemos la hora actual.
 	@GetMapping("end/{id}")
 	public LocalTime setIntervalEnd(@PathVariable int id) {
 		Intervals interval = intervalsRepository.findById(id)
