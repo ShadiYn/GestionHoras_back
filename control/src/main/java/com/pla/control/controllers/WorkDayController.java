@@ -91,11 +91,11 @@ public class WorkDayController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("kboom");
 	}
 	
-	@PostMapping
+	@PostMapping("createworkdayflexible")
 	public ResponseEntity<String> createWorkDayFlexible(UsernamePasswordAuthenticationToken upa,int hours) {
 		User user = (User) upa.getPrincipal();
 		WorkDay newWorkDay = new WorkDay(user, LocalDate.now(), hours);
-		return ResponseEntity.status(HttpStatus.CREATED).body("a");
+		return ResponseEntity.status(HttpStatus.CREATED).body("created");
 	}
 
 	@GetMapping("/current")
