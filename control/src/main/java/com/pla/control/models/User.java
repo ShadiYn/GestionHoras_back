@@ -25,6 +25,7 @@ public class User implements UserDetails {
 	private String lastName;
 	private String username;
 	private String password;
+	private float requiredHours;
 	private boolean isFlexible;
 	private float eurosPerHour;
 	private float eurosPerExtraHours;
@@ -59,6 +60,26 @@ public class User implements UserDetails {
 		this.eurosPerExtraHours = eurosPerExtraHours;
 		this.isFlexible = isFlexible;
 	}
+	public User(String name, String lastName, String username, String password, float eurosPerHour,
+			float eurosPerExtraHours, boolean isFlexible, float requiredHours) {
+		super();
+		this.name = name;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+		this.created_at = LocalDateTime.now();
+		this.updated_at = LocalDateTime.now();
+		this.accountNonExpired = true;
+		this.accountNonLocked = true;
+		this.credentialsNonExpired = true;
+		this.enabled = true;
+		this.eurosPerHour = eurosPerHour;
+		this.eurosPerExtraHours = eurosPerExtraHours;
+		this.isFlexible = isFlexible;
+		this.requiredHours = requiredHours;
+	}
+
+	
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -183,6 +204,13 @@ public class User implements UserDetails {
 
 	public float getEurosPerExtraHours() {
 		return eurosPerExtraHours;
+	}
+	public float getRequiredHours() {
+		return requiredHours;
+	}
+
+	public void setRequiredHours(float requiredHours) {
+		this.requiredHours = requiredHours;
 	}
 
 	public void setEurosPerExtraHours(float eurosPerExtraHours) {

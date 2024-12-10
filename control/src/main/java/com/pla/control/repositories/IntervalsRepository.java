@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface IntervalsRepository extends JpaRepository<Intervals, Integer> {
     List<Intervals> findByWorkDayIn(List<WorkDay> workDays);
 
+	List<Intervals> findByWorkDay(WorkDay workDay);
+
 
     
 }

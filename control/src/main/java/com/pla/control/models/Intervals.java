@@ -17,8 +17,7 @@ public class Intervals {
 	private int id;
 	private LocalTime start_time;
 	private LocalTime end_time;
-	private float requiredHours;
-	private float overtime;
+
 
 	@ManyToOne
 	@JsonIgnore
@@ -28,13 +27,17 @@ public class Intervals {
 	public Intervals() {
 		super();
 	}
+	public Intervals(LocalTime start_time, WorkDay workDay) {
+		super();
+		this.start_time = start_time;
+		this.workDay = workDay;
+	}
 
-	public Intervals(LocalTime start_time, LocalTime end_time, float requiredHours, float overtime, WorkDay workDay) {
+	
+	public Intervals(LocalTime start_time, LocalTime end_time, WorkDay workDay) {
 		super();
 		this.start_time = start_time;
 		this.end_time = end_time;
-		this.requiredHours = requiredHours;
-		this.overtime = overtime;
 		this.workDay = workDay;
 	}
 
@@ -70,21 +73,6 @@ public class Intervals {
 		this.end_time = end_time;
 	}
 
-	public float getRequiredHours() {
-		return requiredHours;
-	}
-
-	public void setRequiredHours(float requiredHours) {
-		this.requiredHours = requiredHours;
-	}
-
-	public float getOvertime() {
-		return overtime;
-	}
-
-	public void setOvertime(float overtime) {
-		this.overtime = overtime;
-	}
 
 
 }

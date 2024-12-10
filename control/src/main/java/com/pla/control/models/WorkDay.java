@@ -23,6 +23,7 @@ public class WorkDay {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 	private LocalDate day;
+	private float requiredHours;
 	private boolean attended;
 	private boolean justified;
 	private String description;
@@ -36,10 +37,24 @@ public class WorkDay {
 		super();
 	}
 
-	public WorkDay(LocalDate day, boolean attended, boolean justified, String description, LocalDateTime created_at,
-			LocalDateTime updated_at) {
+	//noflexible
+	public WorkDay(User user, LocalDate day, float requiredHours) {
 		super();
+		this.user = user;
 		this.day = day;
+		this.requiredHours = requiredHours;
+		this.attended = true;
+		this.created_at = LocalDateTime.now();
+		this.updated_at = LocalDateTime.now();
+	}
+	
+	
+	public WorkDay(User user, LocalDate day, float requiredHours, boolean attended, boolean justified,
+			String description) {
+		super();
+		this.user = user;
+		this.day = day;
+		this.requiredHours = requiredHours;
 		this.attended = attended;
 		this.justified = justified;
 		this.description = description;
@@ -112,4 +127,13 @@ public class WorkDay {
 		this.intervalsList = intervalsList;
 		this.updated_at = LocalDateTime.now();
 	}
+
+	public float getRequiredHours() {
+		return requiredHours;
+	}
+
+	public void setRequiredHours(float requiredHours) {
+		this.requiredHours = requiredHours;
+	}
+
 }
