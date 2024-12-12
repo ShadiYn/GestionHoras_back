@@ -113,19 +113,6 @@ public class WorkDayController {
 	                             .body(null);
 	    }
 	}
-	
-	/*
-		 * @GetMapping("/current") public ResponseEntity<WorkDay>
-		 * getOrCreateCurrentWorkDay(UsernamePasswordAuthenticationToken upa) { User
-		 * user = (User) upa.getPrincipal(); LocalDate today = LocalDate.now();
-		 * 
-		 * WorkDay workDay = workDayRepository.findByUserAndDay(user,
-		 * today).orElseGet(() -> { WorkDay newWorkDay = new WorkDay(today,0,0, false,
-		 * false, "", LocalDateTime.now(), LocalDateTime.now());
-		 * newWorkDay.setUser(user); return workDayRepository.save(newWorkDay); });
-		 * 
-		 * return ResponseEntity.ok(workDay); }
-		 */
 
 	@GetMapping("/current-month")
 	public ResponseEntity<List<WorkDay>> getWorkDaysForCurrentMonth(UsernamePasswordAuthenticationToken upa) {

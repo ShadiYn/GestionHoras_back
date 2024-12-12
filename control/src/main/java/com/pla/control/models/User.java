@@ -211,6 +211,7 @@ public class User implements UserDetails {
 
 	public void setRequiredHours(float requiredHours) {
 		this.requiredHours = requiredHours;
+		this.updated_at = LocalDateTime.now();
 	}
 
 	public void setEurosPerExtraHours(float eurosPerExtraHours) {
