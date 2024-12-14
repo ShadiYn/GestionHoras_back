@@ -5,7 +5,6 @@ import com.pla.control.models.User;
 import com.pla.control.models.WorkDay;
 import com.pla.control.repositories.IntervalsRepository;
 import com.pla.control.repositories.WorkDayRepository;
-import org.antlr.v4.runtime.misc.Interval;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +17,14 @@ import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/intervals")
 public class IntervalsController {
+
+	private static final Logger logger = LoggerFactory.getLogger(IntervalsController.class);
 
 	@Autowired
 	private IntervalsRepository intervalsRepository;
@@ -214,13 +217,18 @@ public class IntervalsController {
 
 	@GetMapping("end/{id}")
 	public ResponseEntity<LocalTime> setIntervalEnd(@PathVariable int id) {
-		Intervals interval = intervalsRepository.findById(id)
-				.filter(i -> i.getStart_time() != null && i.getEnd_time() == null)
-				.orElseThrow(() -> new RuntimeException("No open interval found for the given ID"));
-
-		interval.setEnd_time(LocalTime.now());
-		intervalsRepository.save(interval);
-		return ResponseEntity.ok(interval.getEnd_time());
+		Optional<Intervals> intervalOpt = intervalsRepository.findById(id);
+		if (intervalOpt.isPresent()) {
+			Intervals interval = intervalOpt.get();
+			if (interval.getStart_time() != null && interval.getEnd_time() == null) {
+				interval.setEnd_time(LocalTime.now());
+				intervalsRepository.save(interval);				
+			} 
+			return ResponseEntity.ok(interval.getEnd_time());
+		} else {
+			
+			throw new RuntimeException("Interval not found");
+		}
 	}
 
 	// ------------------------------------------------------------------------

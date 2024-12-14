@@ -2,16 +2,9 @@ package com.pla.control.models;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
-
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+
 
 @Entity
 @Table(name = "workday")

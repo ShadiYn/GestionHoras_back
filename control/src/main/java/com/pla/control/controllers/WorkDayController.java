@@ -7,21 +7,18 @@ import com.pla.control.repositories.IntervalsRepository;
 import com.pla.control.repositories.UsersRepository;
 import com.pla.control.repositories.WorkDayRepository;
 
-import org.hibernate.boot.registry.classloading.spi.ClassLoaderService.Work;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/workdays")
 public class WorkDayController {
@@ -100,7 +97,7 @@ public class WorkDayController {
 	public ResponseEntity<String> createWorkDayFlexible(UsernamePasswordAuthenticationToken upa, int hours) {
 		User user = (User) upa.getPrincipal();
 		WorkDay newWorkDay = new WorkDay(user, LocalDate.now(), hours);
-		return ResponseEntity.status(HttpStatus.CREATED).body("created");
+		return ResponseEntity.status(HttpStatus.CREATED).body("created:" + newWorkDay);
 	}
 
 	@GetMapping("/current")
