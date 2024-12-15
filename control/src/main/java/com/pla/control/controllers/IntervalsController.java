@@ -168,6 +168,17 @@ public class IntervalsController {
 	    }
 	}
 
+	
+	@GetMapping("/allintervals/{workdayId}")
+	public ResponseEntity<List<Intervals>> getAllIntervalsByWorkDay(@PathVariable int workdayId) {
+		WorkDay workDay = workDayRepository.findById(workdayId)
+				.orElseThrow(() -> new RuntimeException("WorkDay not found"));
+
+		List<Intervals> intervals = intervalsRepository.findByWorkDay(workDay);
+
+		return ResponseEntity.ok(intervals);
+	}
+
 	// ------------------------------------------------------------------------
 	// Set Start and End Intervals
 	// ------------------------------------------------------------------------
