@@ -17,14 +17,11 @@ import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/intervals")
 public class IntervalsController {
 
-	private static final Logger logger = LoggerFactory.getLogger(IntervalsController.class);
 
 	@Autowired
 	private IntervalsRepository intervalsRepository;
