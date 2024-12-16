@@ -156,9 +156,10 @@ public class WorkDayController {
 		return workDayRepository.findAll();
 	}
 
-	@GetMapping("/unattended")
-	public ResponseEntity<List<WorkDay>> getUnattendedWorkDay() {
-		List<WorkDay> aWorkdays = workDayRepository.findAll();
+	@GetMapping("/unattendedList")
+	public ResponseEntity<List<WorkDay>> getUnattendedWorkDay(UsernamePasswordAuthenticationToken upa) {
+		User user = (User) upa.getPrincipal();
+		List<WorkDay> aWorkdays = workDayRepository.findByUser(user);
 		List<WorkDay> uWorkdays = new ArrayList<>();
 		if (aWorkdays.isEmpty()) {
 			return ResponseEntity.badRequest().body(null);
@@ -169,6 +170,21 @@ public class WorkDayController {
 			}
 		}
 		return ResponseEntity.ok(uWorkdays);
+
+	}
+	//Total
+	@GetMapping("/unattendednumber")
+	public ResponseEntity<Integer> getUnattendedNumberWorkDay(UsernamePasswordAuthenticationToken upa) {
+		User user = (User) upa.getPrincipal();
+		List<WorkDay> aWorkdays = workDayRepository.findByUser(user);
+		
+		int counter = 0;
+		for (int i = 0; i < aWorkdays.size() - 1; i++) {
+			if (aWorkdays.get(i).isAttended() == false) {
+				counter++;
+			}
+		}
+		return ResponseEntity.ok(counter);
 
 	}
 

@@ -27,6 +27,6 @@ public interface WorkDayRepository extends JpaRepository<WorkDay, Integer> {
     List<WorkDay> findByUserAndMonthAndYear(@Param("user") User user,
                                              @Param("startOfMonth") LocalDate startOfMonth, 
                                              @Param("endOfMonth") LocalDate endOfMonth);
-    
+    List<WorkDay> findByUser(User user);
     
 }
