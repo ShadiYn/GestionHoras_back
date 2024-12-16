@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -153,6 +154,22 @@ public class WorkDayController {
 	@GetMapping
 	public List<WorkDay> getAllWorkDays() {
 		return workDayRepository.findAll();
+	}
+
+	@GetMapping("/unattended")
+	public ResponseEntity<List<WorkDay>> getUnattendedWorkDay() {
+		List<WorkDay> aWorkdays = workDayRepository.findAll();
+		List<WorkDay> uWorkdays = new ArrayList<>();
+		if (aWorkdays.isEmpty()) {
+			return ResponseEntity.badRequest().body(null);
+		}
+		for (int i = 0; i < aWorkdays.size() - 1; i++) {
+			if (aWorkdays.get(i).isAttended() == false) {
+				uWorkdays.add(aWorkdays.get(i));
+			}
+		}
+		return ResponseEntity.ok(uWorkdays);
+
 	}
 
 	@GetMapping("/{id}")
