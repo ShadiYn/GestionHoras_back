@@ -56,21 +56,24 @@ public class WorkDayController {
 
 			// Check if the WorkDay already has an interval with a non-null start_time
 			List<Intervals> existingIntervals = intervalsRepository.findByWorkDayIn(List.of(workDay));
+			
+			System.out.println();
 			if (existingIntervals.size() != 0) {
 				for (Intervals interval : existingIntervals) {
+					System.out.println(interval.getId()+ " " + interval.getStart_time() + " " + interval.getEnd_time());
 					if (interval.getStart_time() != null && interval.getEnd_time() == null) {
 						return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Interval with start time");
 					} else {
 						// If no such interval exists, create a new one (if necessary)
 						Intervals newInterval = new Intervals(LocalTime.now(), workDay);
 						intervalsRepository.save(newInterval);
-						return ResponseEntity.status(HttpStatus.CREATED).body("New Interval Created");
+						return ResponseEntity.status(HttpStatus.CREATED).body("New Interval Created1");
 					}
 				}
 			} else {
 				Intervals newInterval = new Intervals(LocalTime.now(), workDay);
 				intervalsRepository.save(newInterval);
-				return ResponseEntity.status(HttpStatus.CREATED).body("New Interval Created");
+				return ResponseEntity.status(HttpStatus.CREATED).body("New Interval Created2");
 			}
 
 		} else {
@@ -94,11 +97,15 @@ public class WorkDayController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("kboom");
 	}
 
-	@PostMapping("createworkdayflexible")
-	public ResponseEntity<String> createWorkDayFlexible(UsernamePasswordAuthenticationToken upa, int hours) {
+	@PostMapping("/createworkdayflexible")
+	public ResponseEntity<String> createWorkDayFlexible(UsernamePasswordAuthenticationToken upa, @RequestBody String hours) {
 		User user = (User) upa.getPrincipal();
-		WorkDay newWorkDay = new WorkDay(user, LocalDate.now(), hours);
-		return ResponseEntity.status(HttpStatus.CREATED).body("created:" + newWorkDay);
+		System.out.println("1111111 " + hours);
+		WorkDay newWorkDay = new WorkDay(user, LocalDate.now(), Integer.parseInt(hours));
+		workDayRepository.save(newWorkDay);
+		Intervals newInterval = new Intervals(LocalTime.now(), newWorkDay);
+		intervalsRepository.save(newInterval);
+		return ResponseEntity.status(HttpStatus.CREATED).body("created:");
 	}
 
 	@GetMapping("/current")
