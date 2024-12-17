@@ -74,7 +74,7 @@ public class BasicAuthController {
 
 		// Si todo lo anterior es correcto creamos y guardamos el nuevo usuario
 		User newUser = new User(userDTO.getName(), userDTO.getLastName(), userDTO.getUsername(),
-				encode.encode(userDTO.getPassword()), userDTO.getEurosPerHour(),userDTO.getEurosPerExtraHours(), userDTO.isFlexible());
+				encode.encode(userDTO.getPassword()), userDTO.getEurosPerHour(),userDTO.getEurosPerExtraHours(), userDTO.isFlexible(),userDTO.getRequiredHours());
 
 		usersRepository.save(newUser);
 		//Respuesta de que todo ha ido correctamente.

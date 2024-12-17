@@ -59,7 +59,7 @@ public class WorkDayController {
 	                .anyMatch(interval -> interval.getStart_time() != null && interval.getEnd_time() == null);
 
 	            if (hasIncompleteInterval) {
-	                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Interval with start time is incomplete.");
+	                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Already Check-in");
 	            } else {
 	                intervalsRepository.save(new Intervals(LocalTime.now(), workDay));
 	                return ResponseEntity.status(HttpStatus.CREATED).body("New Interval Created");

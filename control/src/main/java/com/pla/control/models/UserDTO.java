@@ -5,11 +5,20 @@ public class UserDTO {
 	private String name;
 	private String password;
 	private String lastName;
+	private float requiredHours;
 	private float eurosPerHour;
 	private float eurosPerExtraHours;
 	private boolean isFlexible;
 
 	public UserDTO() {
+	}
+
+	public float getRequiredHours() {
+		return requiredHours;
+	}
+
+	public void setRequiredHours(float requiredHours) {
+		this.requiredHours = requiredHours;
 	}
 
 	public String getUsername() {
@@ -68,16 +77,4 @@ public class UserDTO {
 		this.eurosPerExtraHours = eurosPerExtraHours;
 	}
 
-	@Override
-	public String toString() {
-		return "UserDTO{" +
-				"username='" + username + '\'' +
-				", name='" + name + '\'' +
-				", password='" + password + '\'' +
-				", lastName='" + lastName + '\'' +
-				", eurosPerHour=" + eurosPerHour +
-				", eurosPerExtraHours=" + eurosPerExtraHours +
-				", isFlexible=" + isFlexible +
-				'}';
-	}
 }

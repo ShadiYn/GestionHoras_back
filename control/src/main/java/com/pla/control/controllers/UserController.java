@@ -67,7 +67,8 @@ public class UserController {
 		System.out.println("111111111111" + userUpdateDTO.toString());
 		// is flexibe
 		userToUpdate.setFlexible(userUpdateDTO.isFlexible());
-
+		
+		userToUpdate.setRequiredHours(userUpdateDTO.getRequiredHours());
 		// Guardamos el usuario y lo actualizamos.
 		usersRepository.save(userToUpdate);
 		// Respuesta hacia el front de que todo ha ido correctamente
