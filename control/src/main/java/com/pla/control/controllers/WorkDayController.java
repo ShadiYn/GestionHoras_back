@@ -88,7 +88,7 @@ public class WorkDayController {
 			}
 			// If the user is flexible, prompt for required hours and direct to flexible
 			// workday creation
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User is flexible.");
+			return ResponseEntity.status(HttpStatus.OK).body("User is flexible.");
 
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("kboom");
@@ -156,28 +156,17 @@ public class WorkDayController {
 		return workDayRepository.findAll();
 	}
 
-	@GetMapping("/unattendedList")
-	public ResponseEntity<List<WorkDay>> getUnattendedWorkDay(UsernamePasswordAuthenticationToken upa) {
-		User user = (User) upa.getPrincipal();
-		List<WorkDay> aWorkdays = workDayRepository.findByUser(user);
-		List<WorkDay> uWorkdays = new ArrayList<>();
-		if (aWorkdays.isEmpty()) {
-			return ResponseEntity.badRequest().body(null);
-		}
-		for (int i = 0; i < aWorkdays.size() - 1; i++) {
-			if (aWorkdays.get(i).isAttended() == false) {
-				uWorkdays.add(aWorkdays.get(i));
-			}
-		}
-		return ResponseEntity.ok(uWorkdays);
-
-	}
-	//Total
+	// Total
 	@GetMapping("/unattendednumber")
 	public ResponseEntity<Integer> getUnattendedNumberWorkDay(UsernamePasswordAuthenticationToken upa) {
 		User user = (User) upa.getPrincipal();
-		List<WorkDay> aWorkdays = workDayRepository.findByUser(user);
-		
+		// Obtener el primer día del mes actual y el último día del mes actual
+		LocalDate now = LocalDate.now();
+		LocalDate startOfMonth = now.withDayOfMonth(1); // Primer día del mes
+		LocalDate endOfMonth = now.withDayOfMonth(now.lengthOfMonth()); // Último día del mes
+
+		// Obtener los días de trabajo del usuario para el mes actual
+		List<WorkDay> aWorkdays = workDayRepository.findByUserAndMonth(user, startOfMonth, endOfMonth);
 		int counter = 0;
 		for (int i = 0; i < aWorkdays.size() - 1; i++) {
 			if (aWorkdays.get(i).isAttended() == false) {
