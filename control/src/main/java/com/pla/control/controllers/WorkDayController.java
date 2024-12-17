@@ -44,63 +44,49 @@ public class WorkDayController {
 
 	@PostMapping("/checkandcreateautoworkday")
 	public ResponseEntity<String> checkAndCreateAutoWorkday(UsernamePasswordAuthenticationToken upa) {
-		// Get the authenticated user
-		User user = (User) upa.getPrincipal();
+	    // Get the authenticated user
+	    User user = (User) upa.getPrincipal();
 
-		// Try to find the WorkDay for the user and the current day
-		Optional<WorkDay> workDayOptional = workDayRepository.findByUserAndDay(user, LocalDate.now());
+	    // Try to find the WorkDay for the user and the current day
+	    Optional<WorkDay> workDayOptional = workDayRepository.findByUserAndDay(user, LocalDate.now());
 
-		if (workDayOptional.isPresent()) {
-			// If the WorkDay is found, check for existing intervals
-			WorkDay workDay = workDayOptional.get();
+	    if (workDayOptional.isPresent()) {
+	        WorkDay workDay = workDayOptional.get();
+	        List<Intervals> existingIntervals = intervalsRepository.findByWorkDayIn(List.of(workDay));
 
-			// Check if the WorkDay already has an interval with a non-null start_time
-			List<Intervals> existingIntervals = intervalsRepository.findByWorkDayIn(List.of(workDay));
-			
-			System.out.println();
-			if (existingIntervals.size() != 0) {
-				for (Intervals interval : existingIntervals) {
-					System.out.println(interval.getId()+ " " + interval.getStart_time() + " " + interval.getEnd_time());
-					if (interval.getStart_time() != null && interval.getEnd_time() == null) {
-						return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Interval with start time");
-					} else {
-						// If no such interval exists, create a new one (if necessary)
-						Intervals newInterval = new Intervals(LocalTime.now(), workDay);
-						intervalsRepository.save(newInterval);
-						return ResponseEntity.status(HttpStatus.CREATED).body("New Interval Created1");
-					}
-				}
-			} else {
-				Intervals newInterval = new Intervals(LocalTime.now(), workDay);
-				intervalsRepository.save(newInterval);
-				return ResponseEntity.status(HttpStatus.CREATED).body("New Interval Created2");
-			}
+	        if (!existingIntervals.isEmpty()) {
+	            boolean hasIncompleteInterval = existingIntervals.stream()
+	                .anyMatch(interval -> interval.getStart_time() != null && interval.getEnd_time() == null);
 
-		} else {
-			if (!user.isFlexible()) {
-				// If the user is not flexible, create WorkDay with required hours from the
-				// profile
-				WorkDay newWorkDay = new WorkDay(user, LocalDate.now(), user.getRequiredHours());
-				workDayRepository.save(newWorkDay);
+	            if (hasIncompleteInterval) {
+	                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Interval with start time is incomplete.");
+	            } else {
+	                intervalsRepository.save(new Intervals(LocalTime.now(), workDay));
+	                return ResponseEntity.status(HttpStatus.CREATED).body("New Interval Created");
+	            }
+	        } else {
+	            intervalsRepository.save(new Intervals(LocalTime.now(), workDay));
+	            return ResponseEntity.status(HttpStatus.CREATED).body("New Interval Created");
+	        }
+	    } else {
+	        if (!user.isFlexible()) {
+	            // Create WorkDay and Interval for non-flexible users
+	            WorkDay newWorkDay = new WorkDay(user, LocalDate.now(), user.getRequiredHours());
+	            workDayRepository.save(newWorkDay);
+	            intervalsRepository.save(new Intervals(LocalTime.now(), newWorkDay));
+	            return ResponseEntity.status(HttpStatus.CREATED).body("New Workday and Interval Created");
+	        }
 
-				Intervals newInterval = new Intervals(LocalTime.now(), newWorkDay);
-				intervalsRepository.save(newInterval);
-
-				return ResponseEntity.status(HttpStatus.CREATED).body("New Workday and Interval Created");
-
-			}
-			// If the user is flexible, prompt for required hours and direct to flexible
-			// workday creation
-			return ResponseEntity.status(HttpStatus.OK).body("User is flexible.");
-
-		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("kboom");
+	        // If the user is flexible, prompt for required hours
+	        return ResponseEntity.status(HttpStatus.OK).body("User is flexible.");
+	    }
 	}
 
+
 	@PostMapping("/createworkdayflexible")
-	public ResponseEntity<String> createWorkDayFlexible(UsernamePasswordAuthenticationToken upa, @RequestBody String hours) {
+	public ResponseEntity<String> createWorkDayFlexible(UsernamePasswordAuthenticationToken upa,
+			@RequestBody String hours) {
 		User user = (User) upa.getPrincipal();
-		System.out.println("1111111 " + hours);
 		WorkDay newWorkDay = new WorkDay(user, LocalDate.now(), Integer.parseInt(hours));
 		workDayRepository.save(newWorkDay);
 		Intervals newInterval = new Intervals(LocalTime.now(), newWorkDay);
