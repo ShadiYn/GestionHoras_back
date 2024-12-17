@@ -64,7 +64,7 @@ public class UserController {
 		if (userUpdateDTO.getEurosPerExtraHours() > 0) {
 			userToUpdate.setEurosPerExtraHours(userUpdateDTO.getEurosPerExtraHours());
 		}
-		System.out.println("111111111111" + userUpdateDTO.toString());
+		
 		// is flexibe
 		userToUpdate.setFlexible(userUpdateDTO.isFlexible());
 		
@@ -99,9 +99,6 @@ public class UserController {
 	@PostMapping("/checkpassword")
 	public ResponseEntity<String> checkPassword(UsernamePasswordAuthenticationToken upa, @RequestBody String oldPassword) {
 		User user = (User) upa.getPrincipal();
-		System.out.println("Boolean " + encode.matches(oldPassword, user.getPassword()));
-		System.out.println("userpass " + user.getPassword());
-		System.out.println("Pass to check " + encode.encode(oldPassword));
 		if (encode.matches(oldPassword, user.getPassword())) {
 			return ResponseEntity.ok("Correct password");
 		}
